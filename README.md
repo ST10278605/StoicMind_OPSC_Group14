@@ -12,7 +12,7 @@ For Part 2, we took the ideas and features researched in Part 1 and worked on tu
 
 ---
 Video link: https://advtechonline-my.sharepoint.com/:v:/g/personal/st10446802_rcconnect_edu_za/IQDnA8kxDbTDQJTi2aZ9x_tvAQB8I1kEhtTXWMyCYEz4AvE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=cydiSH
-GitHub link: 
+GitHub link: https://github.com/ST10278605/StoicMind_OPSC_Group14.git
 
 ## Technologies Used
 
