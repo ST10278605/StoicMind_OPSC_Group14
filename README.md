@@ -338,9 +338,3 @@ In Part 2, we focused on taking the ideas from our Part 1 research and turning t
 We also added automated unit tests and a GitHub Actions workflow to help with testing and development. GitHub was used throughout the project to keep track of our work and changes.
 
 Overall, Part 2 allowed us to take the concepts we researched in Part 1 and apply them practically by developing, testing, debugging, and improving the Stoic Mind Android application. 
-
-Video link
-https://advtechonline-my.sharepoint.com/:v:/g/personal/st10446802_rcconnect_edu_za/IQDnA8kxDbTDQJTi2aZ9x_tvAQB8I1kEhtTXWMyCYEz4AvE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=cydiSH
-
-github link
-https://github.com/thesolution1/StoicMind.git
