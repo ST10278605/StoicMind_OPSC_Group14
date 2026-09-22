@@ -11,6 +11,8 @@ The application was developed using **Android Studio and Kotlin**. We also used 
 For Part 2, we took the ideas and features researched in Part 1 and worked on turning them into a working Android application. We also focused on testing the application, fixing errors, improving the API connection, checking Firebase, handling invalid inputs, and making sure the application works properly.
 
 ---
+Video link: https://advtechonline-my.sharepoint.com/:v:/g/personal/st10446802_rcconnect_edu_za/IQDnA8kxDbTDQJTi2aZ9x_tvAQB8I1kEhtTXWMyCYEz4AvE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=cydiSH
+GitHub link: 
 
 ## Technologies Used
 
