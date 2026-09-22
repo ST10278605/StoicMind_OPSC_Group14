@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "509923535533",
+    "project_id": "stoicmind-42056",
+    "storage_bucket": "stoicmind-42056.firebasestorage.app"
+  },
+
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509923535533:android:e054a755144c5da58d3424",
+        "android_client_info": {
+          "package_name": "com.example.stoicmind"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGh6UIVOsOdRLDiPZT0WjDtvyfV9Kh66M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

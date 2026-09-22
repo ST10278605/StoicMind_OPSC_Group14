@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:attr/windowBackground">
+
+    <include
+        android:id="@+id/toolbarInclude"
+        layout="@layout/layout_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/etSearchExplore"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/gradient_quote_background"
+            android:paddingHorizontal="16dp"
+            android:hint="Search wisdom..."
+            android:textColorHint="@color/colorTextSecondary"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:autofillHints="none" />
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_explore"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="?attr/colorPrimary"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Search" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browse Categories"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:alignmentMode="alignMargins">
+
+                <!-- Resilience -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvResilience"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Resilience" android:textColor="@android:color/white" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Self-Discipline -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvSelfDiscipline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Self-Discipline" android:textColor="@android:color/white" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="12 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Relationships -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvRelationships"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Relationships" android:textColor="@android:color/white" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="8 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Mindfulness -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvMindfulness"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mindfulness" android:textColor="@android:color/white" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="20 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Gratitude -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvGratitude"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Gratitude" android:textColor="@android:color/white" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Personal Development -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvPersonalDevelopment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pers. Development" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="14sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="18 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Stress Management -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvStressManagement"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Stress Management" android:textColor="@android:color/white" android:textStyle="bold" android:textSize="14sp" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="14 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Leadership -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvLeadership"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Leadership" android:textColor="@android:color/white" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="7 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Success -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvSuccess"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="12dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center" android:background="@drawable/gradient_quote_background">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Success" android:textColor="@android:color/white" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="11 Items" android:textColor="@android:color/white" android:textSize="12sp" android:alpha="0.8" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

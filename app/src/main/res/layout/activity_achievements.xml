@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:attr/windowBackground">
+
+    <include
+        android:id="@+id/toolbarInclude"
+        layout="@layout/layout_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Level Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="24dp"
+                    android:gravity="center_vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        app:cardCornerRadius="45dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="?attr/colorPrimary">
+                        <ImageView
+                            android:layout_width="65dp"
+                            android:layout_height="65dp"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/ic_launcher"
+                            app:tint="@color/colorGold"
+                            android:contentDescription="Level Icon" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="24dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Level 5"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Stoic Learner"
+                            android:textColor="@color/colorTextSecondary"
+                            android:textSize="18sp" />
+
+                        <ProgressBar
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"
+                            android:layout_marginTop="16dp"
+                            android:progress="70"
+                            android:progressTint="@color/colorGold"
+                            android:progressBackgroundTint="@color/colorDivider" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="350 Points"
+                            android:textColor="?attr/colorPrimary"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Badges Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Achievement Badges"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:alignmentMode="alignMargins"
+                android:layout_marginBottom="24dp">
+
+                <include android:id="@+id/badge1" layout="@layout/item_badge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" />
+                <include android:id="@+id/badge2" layout="@layout/item_badge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" />
+                <include android:id="@+id/badge3" layout="@layout/item_badge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" />
+                <include android:id="@+id/badge4" layout="@layout/item_badge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" />
+                <include android:id="@+id/badge5" layout="@layout/item_badge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" />
+                <include android:id="@+id/badge6" layout="@layout/item_badge" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" />
+
+            </GridLayout>
+
+            <!-- Stats Summary -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stats Summary"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="32dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Reflections" android:textColor="@color/colorTextSecondary" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="42" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                    </RelativeLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorDivider" />
+
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Journal Entries" android:textColor="@color/colorTextSecondary" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="15" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                    </RelativeLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorDivider" />
+
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Longest Streak" android:textColor="@color/colorTextSecondary" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="12 Days" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                    </RelativeLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorDivider" />
+
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Habits Completed" android:textColor="@color/colorTextSecondary" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="85" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

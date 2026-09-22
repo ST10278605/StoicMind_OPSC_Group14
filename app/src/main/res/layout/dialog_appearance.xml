@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/colorCardBackground">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Theme Color"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorTextPrimary"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Theme Selection Options -->
+    <RadioGroup
+        android:id="@+id/rgThemes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rbThemeClassic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Classic Stoic (Slate/Gold)"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorTextPrimary"/>
+
+        <RadioButton
+            android:id="@+id/rbThemeSerene"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Serene Wisdom (Teal/Calm)"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorTextPrimary"/>
+
+        <RadioButton
+            android:id="@+id/rbThemeCourage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stoic Courage (Crimson/Burgundy)"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorTextPrimary"/>
+
+        <RadioButton
+            android:id="@+id/rbThemeNature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Amor Fati (Forest Green/Sage)"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/colorTextPrimary"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/colorTextSecondary"/>
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="?attr/colorPrimary"/>
+    </LinearLayout>
+</LinearLayout>

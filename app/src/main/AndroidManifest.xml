@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".StoicMindApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.StoicMind">
+
+        <activity
+            android:name=".activities.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.DashboardActivity" />
+        <activity android:name=".activities.DailyReflectionActivity" />
+        <activity android:name=".activities.JournalActivity" />
+        <activity android:name=".activities.NewJournalEntryActivity" />
+        <activity android:name=".activities.MoodCheckInActivity" />
+        <activity android:name=".activities.HabitsActivity" />
+        <activity android:name=".activities.ExploreActivity" />
+        <activity android:name=".activities.ExploreCategoryContentActivity" />
+        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.PersonalInfoActivity" />
+        <activity android:name=".activities.AchievementsActivity" />
+        <activity android:name=".activities.RemindersActivity" />
+        <activity android:name=".MainActivity" />
+
+    </application>
+
+</manifest>

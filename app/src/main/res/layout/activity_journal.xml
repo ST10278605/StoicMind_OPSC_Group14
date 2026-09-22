@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:attr/windowBackground">
+
+    <include
+        android:id="@+id/toolbarInclude"
+        layout="@layout/layout_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:id="@+id/tvTodayDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="18 August 2025"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Today I learned..."
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etJournalContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@null"
+                        android:gravity="top"
+                        android:hint="Type your reflection here..."
+                        android:inputType="textMultiLine"
+                        android:minLines="5"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_mood" android:layout_marginHorizontal="6dp" app:tint="@color/colorGold" />
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_mood" android:layout_marginHorizontal="6dp" app:tint="@color/colorGold" />
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_mood" android:layout_marginHorizontal="6dp" app:tint="@color/colorGold" />
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_mood" android:layout_marginHorizontal="6dp" app:tint="@color/colorGold" />
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_mood" android:layout_marginHorizontal="6dp" app:tint="@color/colorGold" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSaveJournalEntry"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="16dp"
+                android:text="Save Entry"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:backgroundTint="?attr/colorPrimary"
+                app:cornerRadius="12dp" />
+
+            <Button
+                android:id="@+id/btnNewEntry"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:text="+ Write Detailed Entry"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:cornerRadius="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:text="Past Entries"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEmptyJournal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="24dp"
+                android:text="No journal entries yet. Save a reflection above or write a detailed entry to get started!"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvJournalEntries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_journal_entry" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
