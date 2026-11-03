@@ -80,6 +80,11 @@ class ProfileActivity : BaseActivity() {
             startActivity(intent)
         }
 
+        binding.btnLanguage.setOnClickListener {
+
+
+        }
+
         binding.btnPrivacyPolicy.setOnClickListener {
             val privacyUrl = "https://firebase.google.com/support/privacy"
             val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(privacyUrl))

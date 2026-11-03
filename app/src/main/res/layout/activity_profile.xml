@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?android:attr/windowBackground">
+    android:background="?android:attr/windowBackground"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbarInclude"
@@ -22,10 +22,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="?attr/colorPrimary"
                 android:gravity="center"
-                android:padding="32dp"
-                android:background="?attr/colorPrimary">
+                android:orientation="vertical"
+                android:padding="32dp">
 
                 <ImageView
                     android:layout_width="100dp"
@@ -47,9 +47,9 @@
                     android:id="@+id/tvProfileEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:alpha="0.7"
                     android:text="practitioner@stoicmind.com"
-                    android:textColor="@android:color/white"
-                    android:alpha="0.7" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <LinearLayout
@@ -61,11 +61,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:text="Settings"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
                     android:textColor="@color/colorTextPrimary"
-                    android:layout_marginBottom="16dp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btnPersonalInfo"
@@ -75,6 +75,7 @@
                     android:text="Personal Information"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnNotifications"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -83,6 +84,7 @@
                     android:text="Notifications"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnAppearance"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -91,6 +93,15 @@
                     android:text="Appearance"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+                <Button
+                    android:id="@+id/btnLanguage"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Change Language"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnPrivacyPolicy"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -105,8 +116,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Logout"
-                    android:backgroundTint="@color/colorError" />
+                    android:backgroundTint="@color/colorError"
+                    android:text="Logout" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
