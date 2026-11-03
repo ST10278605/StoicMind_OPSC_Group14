@@ -4,6 +4,7 @@ data class User(
     val id: String = "",
     val name: String = "",
     val email: String = "",
+    val profileImageUrl: String = "",
     val language: String = "en",
     val theme: String = "light",
     val primaryVirtue: String = "Wisdom",
