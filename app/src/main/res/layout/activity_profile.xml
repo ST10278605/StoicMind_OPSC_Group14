@@ -28,10 +28,21 @@
                 android:background="?attr/colorPrimary">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:src="@drawable/ic_profile"
-                    app:tint="@android:color/white" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Profile picture"
+                    android:background="@android:color/white"
+                    android:padding="4dp" />
+
+                <Button
+                    android:id="@+id/btnChangeProfileImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Change Profile Picture" />
 
                 <TextView
                     android:id="@+id/tvProfileName"
@@ -75,6 +86,7 @@
                     android:text="Personal Information"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnNotifications"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -83,6 +95,7 @@
                     android:text="Notifications"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnAppearance"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -91,6 +104,7 @@
                     android:text="Appearance"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnPrivacyPolicy"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
