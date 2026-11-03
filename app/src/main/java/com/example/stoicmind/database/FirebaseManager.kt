@@ -64,6 +64,7 @@ class FirebaseManager @Inject constructor() {
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
             val userId = authResult.user?.uid ?: ""
             val user = getUser(userId)
+            mockUser = user
 
             Result.success(user)
 
@@ -71,12 +72,21 @@ class FirebaseManager @Inject constructor() {
             Log.e(TAG, "Login failed, falling back to mock mode", e)
 
             val mockId = "mock_uid_${email.hashCode()}"
+            val derivedName = email.substringBefore("@").replace(".", " ")
+                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+            val existing = mockUsersMap[mockId]
+            val user = if (existing != null && existing.name.isNotEmpty()) {
+                existing
+            } else {
+                User(id = mockId, name = derivedName, email = email)
+            }
             val user = mockUsersMap[mockId] ?: User(
                 id = mockId,
                 email = email
             )
 
             mockUser = user
+            mockUsersMap[mockId] = user
             Result.success(user)
         }
     }
@@ -89,11 +99,13 @@ class FirebaseManager @Inject constructor() {
             val authResult = auth.signInWithCredential(credential).await()
             val userId = authResult.user?.uid ?: ""
             val user = getUser(userId)
+            mockUser = user
 
             Result.success(user)
 
         } catch (e: Exception) {
             Log.e(TAG, "Google sign in failed, falling back to mock mode", e)
+            val user = User(id = "mock_google_uid", name = "Stoic Practitioner", email = "mockuser@gmail.com")
 
             val user = User(
                 id = "mock_google_uid",
@@ -119,9 +131,9 @@ class FirebaseManager @Inject constructor() {
 
     fun getCurrentUserId(): String? {
         return try {
-            auth.currentUser?.uid ?: mockUser?.id ?: "guest_user"
+            auth.currentUser?.uid ?: mockUser?.id
         } catch (_: Exception) {
-            mockUser?.id ?: "guest_user"
+            mockUser?.id
         }
     }
 
@@ -145,6 +157,15 @@ class FirebaseManager @Inject constructor() {
                 .document(userId)
                 .get()
                 .await()
+            val remoteUser = document.toObject(User::class.java)
+            val user = remoteUser ?: mockUsersMap[userId] ?: mockUser ?: User(id = userId)
+            if (user.name.isEmpty() && user.email.isNotEmpty()) {
+                val derivedName = user.email.substringBefore("@").replace(".", " ")
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+                user.copy(name = derivedName)
+            } else {
+                user
+            }
 
             document.toObject(User::class.java)
                 ?: mockUsersMap[userId]
@@ -152,7 +173,14 @@ class FirebaseManager @Inject constructor() {
 
         } catch (e: Exception) {
             Log.e(TAG, "Get user failed, using mock", e)
-            mockUsersMap[userId] ?: User(id = userId)
+            val user = mockUsersMap[userId] ?: mockUser ?: User(id = userId)
+            if (user.name.isEmpty() && user.email.isNotEmpty()) {
+                val derivedName = user.email.substringBefore("@").replace(".", " ")
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+                user.copy(name = derivedName)
+            } else {
+                user
+            }
         }
     }
 

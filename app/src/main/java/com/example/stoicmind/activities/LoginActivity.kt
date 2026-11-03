@@ -71,6 +71,14 @@ class LoginActivity : BaseActivity() {
     }
     
     private fun validateInputs(email: String, password: String): Boolean {
+        if (email.isBlank()) {
+            Toast.makeText(this, "Please enter your email address", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (password.isBlank()) {
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show()
+            return false
+        }
         return true
     }
     
