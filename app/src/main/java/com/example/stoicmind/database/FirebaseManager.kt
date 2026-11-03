@@ -35,7 +35,7 @@ class FirebaseManager @Inject constructor() {
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
             val user = User(
                 id = authResult.user?.uid ?: "",
-                email = email
+                email = email,
             )
             // Save user to Firestore
             saveUser(user)
@@ -83,7 +83,7 @@ class FirebaseManager @Inject constructor() {
     fun logout() {
         try {
             auth.signOut()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // Ignore
         }
         mockUser = null
@@ -92,7 +92,7 @@ class FirebaseManager @Inject constructor() {
     fun getCurrentUserId(): String? {
         return try {
             auth.currentUser?.uid ?: mockUser?.id ?: "guest_user"
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             mockUser?.id ?: "guest_user"
         }
     }
@@ -134,7 +134,7 @@ class FirebaseManager @Inject constructor() {
             Result.success(docRef.id)
         } catch (e: Exception) {
             Log.e(TAG, "Save journal entry failed, using mock", e)
-            val mockId = if (entry.id.isNotEmpty()) entry.id else java.util.UUID.randomUUID().toString()
+            val mockId = entry.id.ifEmpty { java.util.UUID.randomUUID().toString() }
             val entryWithId = entry.copy(id = mockId)
             mockJournalEntries.removeAll { it.id == entryWithId.id }
             mockJournalEntries.add(0, entryWithId)
@@ -155,18 +155,21 @@ class FirebaseManager @Inject constructor() {
             }
             if (remoteEntries.isNotEmpty()) {
                 (remoteEntries + mockJournalEntries.filter { it.userId == userId })
+                    .asSequence()
                     .distinctBy { it.id }
                     .sortedByDescending { it.date }
+                    .toList()
             } else {
-                mockJournalEntries.filter { it.userId == userId }.sortedByDescending { it.date }
+                mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
             }
         } catch (e: Exception) {
             Log.e(TAG, "Get journal entries failed, using mock", e)
-            mockJournalEntries.filter { it.userId == userId }.sortedByDescending { it.date }
+            mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
         }
     }
     
     // Habit Methods
+    @Suppress("unused")
     suspend fun saveHabit(habit: Habit): Result<String> {
         return try {
             val docRef = db.collection(HABITS_COLLECTION).document()
@@ -182,6 +185,7 @@ class FirebaseManager @Inject constructor() {
         }
     }
     
+    @Suppress("unused")
     suspend fun getHabits(userId: String): List<Habit> {
         return try {
             val querySnapshot = db.collection(HABITS_COLLECTION)
@@ -195,7 +199,7 @@ class FirebaseManager @Inject constructor() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Get habits failed, using mock", e)
-            mockHabits.filter { it.userId == userId && it.isActive }
+            mockHabits.filter { (it.userId == userId) && it.isActive }
         }
     }
     
@@ -215,6 +219,7 @@ class FirebaseManager @Inject constructor() {
         }
     }
     
+    @Suppress("unused")
     suspend fun getMoods(userId: String): List<MoodCheckIn> {
         return try {
             val querySnapshot = db.collection(MOODS_COLLECTION)
@@ -229,11 +234,12 @@ class FirebaseManager @Inject constructor() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Get moods failed, using mock", e)
-            mockMoods.filter { it.userId == userId }.sortedByDescending { it.date }.take(30)
+            mockMoods.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.take(30).toList()
         }
     }
     
     // Achievements Methods
+    @Suppress("unused")
     suspend fun getAchievements(userId: String): List<Achievement> {
         return try {
             val querySnapshot = db.collection(ACHIEVEMENTS_COLLECTION)

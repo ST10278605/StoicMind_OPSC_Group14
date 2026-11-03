@@ -12,5 +12,5 @@ data class User(
     val level: Int = 1,
     val streak: Int = 0,
     val createdAt: Long = System.currentTimeMillis(),
-    val updatedAt: Long = System.currentTimeMillis()
+    val updatedAt: Long = System.currentTimeMillis(),
 )
