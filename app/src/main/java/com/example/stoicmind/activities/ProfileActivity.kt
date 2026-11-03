@@ -67,17 +67,7 @@ class ProfileActivity : BaseActivity() {
         }
 
         binding.btnNotifications.setOnClickListener {
-            val intent = Intent().apply {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    action = android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                    putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, packageName)
-                } else {
-                    action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                    putExtra("app_package", packageName)
-                    putExtra("app_uid", applicationInfo.uid)
-                }
-            }
-            startActivity(intent)
+            startActivity(Intent(this, RemindersActivity::class.java))
         }
 
         binding.btnPrivacyPolicy.setOnClickListener {
@@ -124,6 +114,19 @@ class ProfileActivity : BaseActivity() {
             }
 
             sharedPreferences.edit().putString("app_theme", selectedTheme).apply()
+
+            val userId = firebaseManager.getCurrentUserId()
+            if (userId != null) {
+                lifecycleScope.launch {
+                    try {
+                        val user = firebaseManager.getUser(userId)
+                        firebaseManager.saveUser(user.copy(theme = selectedTheme))
+                    } catch (_: Exception) {
+                        // Ignore network sync issues
+                    }
+                }
+            }
+
             dialog.dismiss()
 
             // Restart the app from the Dashboard to apply the theme globally

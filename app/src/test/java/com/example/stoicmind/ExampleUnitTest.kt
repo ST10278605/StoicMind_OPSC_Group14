@@ -68,4 +68,25 @@ class ExampleUnitTest {
         assertEquals("😊 Happy", entry.mood)
         assertTrue(entry.date > 0)
     }
+
+    @Test
+    fun userSettingsCanBeUpdatedCorrectly() {
+        val user = com.example.stoicmind.models.User(
+            id = "user_1",
+            name = "John Doe",
+            email = "john@example.com",
+            primaryVirtue = "Wisdom",
+            theme = "classic"
+        )
+
+        val updatedUser = user.copy(
+            name = "Jane Doe",
+            primaryVirtue = "Courage",
+            theme = "serene"
+        )
+
+        assertEquals("Jane Doe", updatedUser.name)
+        assertEquals("Courage", updatedUser.primaryVirtue)
+        assertEquals("serene", updatedUser.theme)
+    }
 }
