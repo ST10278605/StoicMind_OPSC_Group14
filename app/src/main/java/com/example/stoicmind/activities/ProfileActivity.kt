@@ -182,6 +182,7 @@ class ProfileActivity : BaseActivity() {
             }
 
             startActivity(intent)
+            startActivity(Intent(this, RemindersActivity::class.java))
         }
 
         binding.btnPrivacyPolicy.setOnClickListener {
@@ -245,6 +246,19 @@ class ProfileActivity : BaseActivity() {
             sharedPreferences.edit()
                 .putString("app_theme", selectedTheme)
                 .apply()
+            sharedPreferences.edit().putString("app_theme", selectedTheme).apply()
+
+            val userId = firebaseManager.getCurrentUserId()
+            if (userId != null) {
+                lifecycleScope.launch {
+                    try {
+                        val user = firebaseManager.getUser(userId)
+                        firebaseManager.saveUser(user.copy(theme = selectedTheme))
+                    } catch (_: Exception) {
+                        // Ignore network sync issues
+                    }
+                }
+            }
 
             dialog.dismiss()
 
