@@ -32,9 +32,12 @@
             android:textColor="@color/colorTextSecondary" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvMorning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="8dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,12 +45,14 @@
                 android:padding="16dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/tvMorningTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Morning Reflection\n08:00 AM"
                     android:textColor="@color/colorTextPrimary" />
                 <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchMorning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true" />
@@ -55,9 +60,12 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvEvening"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="8dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,12 +73,14 @@
                 android:padding="16dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/tvEveningTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Evening Review\n09:00 PM"
                     android:textColor="@color/colorTextPrimary" />
                 <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchEvening"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true" />
