@@ -15,7 +15,7 @@ class ExampleUnitTest {
             id = "1",
             text = "The obstacle is the way.",
             author = "Marcus Aurelius",
-            category = "Stoicism"
+            category = "Stoicism",
         )
 
         assertEquals("The obstacle is the way.", quote.text)

@@ -8,5 +8,5 @@ data class Achievement(
     val iconResId: Int = 0,
     val unlockedAt: Long = 0,
     val pointsEarned: Int = 0,
-    val isUnlocked: Boolean = false
+    val isUnlocked: Boolean = false,
 )
