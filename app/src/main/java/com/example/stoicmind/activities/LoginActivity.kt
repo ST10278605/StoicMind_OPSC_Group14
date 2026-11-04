@@ -3,7 +3,6 @@ package com.example.stoicmind.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.stoicmind.R
 import com.example.stoicmind.databinding.ActivityLoginBinding
 import com.example.stoicmind.database.FirebaseManager
@@ -49,7 +48,7 @@ class LoginActivity : BaseActivity() {
     
     private fun setupClickListeners() {
         binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text.toString()
+            val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString()
             
             if (validateInputs(email, password)) {
@@ -67,10 +66,23 @@ class LoginActivity : BaseActivity() {
         
         binding.tvForgotPassword.setOnClickListener {
             // Navigate to forgot password screen
+            Toast.makeText(this, "Forgot password feature coming soon", Toast.LENGTH_SHORT).show()
         }
     }
     
     private fun validateInputs(email: String, password: String): Boolean {
+        if (email.isBlank()) {
+            Toast.makeText(this, "Please enter your email address", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (password.isBlank()) {
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (password.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+            return false
+        }
         return true
     }
     
@@ -80,12 +92,14 @@ class LoginActivity : BaseActivity() {
                 val result = firebaseManager.loginUser(email, password)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccess) {
+                        Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
                         navigateToDashboard()
                     } else {
+                        val errorMsg = result.exceptionOrNull()?.message ?: "Unknown error"
                         Toast.makeText(
                             this@LoginActivity,
-                            "Login failed: ${result.exceptionOrNull()?.message}",
-                            Toast.LENGTH_SHORT
+                            "Login failed: $errorMsg",
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 }
@@ -94,7 +108,7 @@ class LoginActivity : BaseActivity() {
                     Toast.makeText(
                         this@LoginActivity,
                         "Error: ${e.message}",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
             }

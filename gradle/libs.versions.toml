@@ -1,6 +1,6 @@
 [versions]
-agp = "9.3.1"
-kotlin = "2.0.21"
+agp = "9.5.0"
+kotlin = "2.4.10"
 googleServices = "4.5.0"
 hilt = "2.60.1"
 ksp = "2.0.21-1.0.27"
