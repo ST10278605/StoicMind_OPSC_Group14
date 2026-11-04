@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Stoic Practitioner"
+                    android:text="@string/stoic_practitioner"
                     android:textColor="@android:color/white"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:text="Settings"
+                    android:text="@string/settings"
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -72,7 +72,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Personal Information"
+                    android:text="@string/personal_information"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
 
@@ -81,7 +81,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Notifications"
+                    android:text="@string/notifications"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
 
@@ -90,7 +90,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Appearance"
+                    android:text="@string/appearance"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
                 <Button
@@ -98,7 +98,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Change Language"
+                    android:text="@string/change_language"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
 
@@ -117,7 +117,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Privacy Policy"
+                    android:text="@string/privacy_policy"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
 
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:backgroundTint="@color/colorError"
-                    android:text="Logout" />
+                    android:text="@string/logout" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

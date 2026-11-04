@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import com.example.stoicmind.R
 import com.example.stoicmind.database.FirebaseManager
 import com.example.stoicmind.databinding.ActivityPersonalInfoBinding
 import com.example.stoicmind.models.User
@@ -40,7 +41,7 @@ class PersonalInfoActivity : BaseActivity() {
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbarInclude.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Personal Information"
+        supportActionBar?.title = getString(R.string.personal_information)
         binding.toolbarInclude.toolbar.setNavigationOnClickListener {
             finish()
         }

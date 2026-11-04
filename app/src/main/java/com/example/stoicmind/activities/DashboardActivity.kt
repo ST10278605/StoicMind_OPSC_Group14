@@ -129,9 +129,9 @@ class DashboardActivity : BaseActivity() {
             lifecycleScope.launch {
                 try {
                     val user = firebaseManager.getUser(userId)
-                    binding.tvGreeting.text = "Good Morning, ${user.name.ifEmpty { "Stoic" }}"
+                    binding.tvGreeting.text = getString(R.string.greeting_user, user.name.ifEmpty { "Stoic" })
                 } catch (e: Exception) {
-                    binding.tvGreeting.text = "Good Morning, Stoic"
+                    binding.tvGreeting.text = getString(R.string.greeting_default)
                 }
             }
         }

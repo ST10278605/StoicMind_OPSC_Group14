@@ -2,6 +2,7 @@ package com.example.stoicmind
 
 import android.content.Context
 import android.content.res.Configuration
+import android.os.Build
 import java.util.Locale
 
 object LocaleHelper {
@@ -24,8 +25,18 @@ object LocaleHelper {
         val locale = Locale(language)
         Locale.setDefault(locale)
 
-        val config = Configuration(context.resources.configuration)
-        config.setLocale(locale)
+        val resources = context.resources
+        val config = Configuration(resources.configuration)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale)
+        } else {
+            @Suppress("DEPRECATION")
+            config.locale = locale
+        }
+
+        @Suppress("DEPRECATION")
+        resources.updateConfiguration(config, resources.displayMetrics)
 
         return context.createConfigurationContext(config)
     }

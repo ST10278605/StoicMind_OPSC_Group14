@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Identity"
+                android:text="@string/identity"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary"
@@ -33,7 +33,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Full Name"
+                android:hint="@string/full_name"
                 style="@style/Widget.StoicMind.TextInputLayout"
                 app:startIconDrawable="@drawable/ic_profile">
 
@@ -47,7 +47,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email Address"
+                android:hint="@string/email_address"
                 android:layout_marginTop="12dp"
                 style="@style/Widget.StoicMind.TextInputLayout"
                 app:startIconDrawable="@drawable/ic_email"
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Stoic Journey"
+                android:text="@string/your_stoic_journey"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary"
@@ -93,7 +93,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rank"
+                            android:text="@string/rank"
                             android:textSize="12sp"
                             android:textColor="@color/colorTextSecondary" />
                         <TextView
@@ -123,7 +123,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Joined"
+                            android:text="@string/joined"
                             android:textSize="12sp"
                             android:textColor="@color/colorTextSecondary" />
                         <TextView
@@ -142,7 +142,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Primary Virtue Focus"
+                android:text="@string/primary_virtue_focus"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary"
@@ -152,7 +152,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select the virtue you are currently practicing most."
+                android:text="@string/select_virtue_hint"
                 android:textSize="14sp"
                 android:textColor="@color/colorTextSecondary"
                 android:layout_marginBottom="16dp" />
@@ -169,14 +169,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="32dp"
-                android:text="Save All Changes"
+                android:text="@string/save_all_changes"
                 android:backgroundTint="?attr/colorPrimary" />
 
             <!-- Section 4: Danger Zone -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Account Actions"
+                android:text="@string/account_actions"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorError"
@@ -188,7 +188,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Request Password Reset"
+                android:text="@string/request_password_reset"
                 android:textAlignment="viewStart"
                 android:textColor="?attr/colorPrimary" />
 
@@ -197,7 +197,7 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Delete Journey (Close Account)"
+                android:text="@string/delete_journey"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorError" />
 

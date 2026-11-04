@@ -52,9 +52,9 @@ class ProfileActivity : BaseActivity() {
         // Set spinner selection using our localized utility state tracker
         val currentLang = LocaleHelper.getLanguage(this)
         val initialSelection = when (currentLang) {
-            "zulu" -> 1
-            "tswana" -> 2
-            "pedi" -> 3
+            "zu", "zulu" -> 1
+            "tn", "tswana" -> 2
+            "nso", "pedi" -> 3
             else -> 0
         }
         languageSpinner.setSelection(initialSelection)
@@ -67,17 +67,20 @@ class ProfileActivity : BaseActivity() {
                 }
 
                 val selectedLangCode = when (position) {
-                    1 -> "zulu"
-                    2 -> "tswana"
-                    3 -> "pedi"
+                    1 -> "zu"
+                    2 -> "tn"
+                    3 -> "nso"
                     else -> "en"
                 }
 
                 if (selectedLangCode != currentLang) {
                     // Update locale config natively
                     LocaleHelper.setLocale(this@ProfileActivity, selectedLangCode)
-                    // Instantly refresh layout assets
-                    recreate()
+                    // Restart app to Dashboard to apply language change globally across all screens
+                    val intent = Intent(this@ProfileActivity, DashboardActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
                 }
             }
 
@@ -95,7 +98,7 @@ class ProfileActivity : BaseActivity() {
         lifecycleScope.launch {
             try {
                 val user = firebaseManager.getUser(userId)
-                binding.tvProfileName.text = user.name.ifEmpty { "Stoic Practitioner" }
+                binding.tvProfileName.text = user.name.ifEmpty { getString(R.string.stoic_practitioner) }
                 binding.tvProfileEmail.text = user.email.ifEmpty { "practitioner@stoicmind.com" }
             } catch (e: Exception) {
                 // Keep default layout text
@@ -106,7 +109,7 @@ class ProfileActivity : BaseActivity() {
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbarInclude.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Profile & Settings"
+        supportActionBar?.title = getString(R.string.profile_and_settings)
         binding.toolbarInclude.toolbar.setNavigationOnClickListener {
             finish()
         }
