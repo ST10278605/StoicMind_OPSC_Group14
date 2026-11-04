@@ -27,12 +27,8 @@ class SplashActivity : AppCompatActivity() {
     }
     
     private fun checkUserAndNavigate() {
-        val currentUser = firebaseManager.getCurrentUserId()
-        val intent = if (currentUser != null) {
-            Intent(this, DashboardActivity::class.java)
-        } else {
-            Intent(this, LoginActivity::class.java)
-        }
+        // Always require login on app startup
+        val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
     }
