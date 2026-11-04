@@ -270,7 +270,7 @@ class FirebaseManager @Inject constructor(
                 .get()
                 .await()
 
-            querySnapshot.documents.mapNotNull {
+            val remoteEntries = querySnapshot.documents.mapNotNull {
                 it.toObject(JournalEntry::class.java)
             }
 
@@ -287,9 +287,6 @@ class FirebaseManager @Inject constructor(
         } catch (e: Exception) {
             Log.e(TAG, "Get journal entries failed, using mock", e)
             mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
-        } catch (e: Exception) {
-            Log.e(TAG, "Get journal entries failed", e)
-            emptyList()
         }
     }
 
@@ -327,15 +324,22 @@ class FirebaseManager @Inject constructor(
                 .get()
                 .await()
 
-            querySnapshot.documents.mapNotNull {
+            val remoteHabits = querySnapshot.documents.mapNotNull {
                 it.toObject(Habit::class.java)
+            }
+
+            if (remoteHabits.isNotEmpty()) {
+                (remoteHabits + mockHabits.filter { (it.userId == userId) && it.isActive })
+                    .asSequence()
+                    .distinctBy { it.id }
+                    .toList()
+            } else {
+                mockHabits.filter { (it.userId == userId) && it.isActive }
             }
 
         } catch (e: Exception) {
             Log.e(TAG, "Get habits failed, using mock", e)
             mockHabits.filter { (it.userId == userId) && it.isActive }
-            Log.e(TAG, "Get habits failed", e)
-            emptyList()
         }
     }
 
@@ -377,15 +381,24 @@ class FirebaseManager @Inject constructor(
                 .get()
                 .await()
 
-            querySnapshot.documents.mapNotNull {
+            val remoteMoods = querySnapshot.documents.mapNotNull {
                 it.toObject(MoodCheckIn::class.java)
+            }
+
+            if (remoteMoods.isNotEmpty()) {
+                (remoteMoods + mockMoods.filter { it.userId == userId })
+                    .asSequence()
+                    .distinctBy { it.id }
+                    .sortedByDescending { it.date }
+                    .take(30)
+                    .toList()
+            } else {
+                mockMoods.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.take(30).toList()
             }
 
         } catch (e: Exception) {
             Log.e(TAG, "Get moods failed, using mock", e)
             mockMoods.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.take(30).toList()
-            Log.e(TAG, "Get moods failed", e)
-            emptyList()
         }
     }
 
@@ -409,4 +422,3 @@ class FirebaseManager @Inject constructor(
         }
     }
 }
-    }
