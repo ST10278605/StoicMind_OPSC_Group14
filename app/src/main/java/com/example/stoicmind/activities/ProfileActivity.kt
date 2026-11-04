@@ -1,9 +1,17 @@
 package com.example.stoicmind.activities
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.lifecycle.lifecycleScope
+import com.example.stoicmind.LocaleHelper
 import com.example.stoicmind.R
 import com.example.stoicmind.database.FirebaseManager
 import com.example.stoicmind.databinding.ActivityProfileBinding
@@ -16,6 +24,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity() {
 
+    private lateinit var languageSpinner: Spinner
+    private var isInitialDisplay = true
     private lateinit var binding: ActivityProfileBinding
 
     @Inject
@@ -28,6 +38,51 @@ class ProfileActivity : BaseActivity() {
         
         setupToolbar()
         setupClickListeners()
+        setupLanguageSpinner()
+    }
+
+    private fun setupLanguageSpinner() {
+        languageSpinner = binding.languageSpinner
+
+        val languages = arrayOf("English", "Zulu", "Setswana", "Sepedi")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = adapter
+
+        // Set spinner selection using our localized utility state tracker
+        val currentLang = LocaleHelper.getLanguage(this)
+        val initialSelection = when (currentLang) {
+            "zulu" -> 1
+            "tswana" -> 2
+            "pedi" -> 3
+            else -> 0
+        }
+        languageSpinner.setSelection(initialSelection)
+
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isInitialDisplay) {
+                    isInitialDisplay = false
+                    return
+                }
+
+                val selectedLangCode = when (position) {
+                    1 -> "zulu"
+                    2 -> "tswana"
+                    3 -> "pedi"
+                    else -> "en"
+                }
+
+                if (selectedLangCode != currentLang) {
+                    // Update locale config natively
+                    LocaleHelper.setLocale(this@ProfileActivity, selectedLangCode)
+                    // Instantly refresh layout assets
+                    recreate()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
     override fun onResume() {
@@ -68,9 +123,9 @@ class ProfileActivity : BaseActivity() {
 
         binding.btnNotifications.setOnClickListener {
             val intent = Intent().apply {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    action = android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                    putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, packageName)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
                 } else {
                     action = "android.settings.APP_NOTIFICATION_SETTINGS"
                     putExtra("app_package", packageName)
@@ -81,13 +136,12 @@ class ProfileActivity : BaseActivity() {
         }
 
         binding.btnLanguage.setOnClickListener {
-
-
+            binding.languageSpinner.performClick()
         }
 
         binding.btnPrivacyPolicy.setOnClickListener {
             val privacyUrl = "https://firebase.google.com/support/privacy"
-            val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(privacyUrl))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(privacyUrl))
             startActivity(intent)
         }
 
