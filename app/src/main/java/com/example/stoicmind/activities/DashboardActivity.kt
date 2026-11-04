@@ -146,7 +146,11 @@ class DashboardActivity : BaseActivity() {
             lifecycleScope.launch {
                 try {
                     val user = firebaseManager.getUser(userId)
-                    binding.tvGreeting.text = "Good Morning, ${user.name.ifEmpty { "Stoic" }}"
+                    val nameToDisplay = user.name.ifEmpty {
+                        user.email.substringBefore("@").replace(".", " ")
+                            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+                    }
+                    binding.tvGreeting.text = "Good Morning, ${nameToDisplay.ifEmpty { "Stoic" }}"
                 } catch (e: Exception) {
                     binding.tvGreeting.text = "Good Morning, Stoic"
                 }
