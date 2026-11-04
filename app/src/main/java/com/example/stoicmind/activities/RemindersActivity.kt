@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import com.example.stoicmind.databinding.ActivityRemindersBinding
+import com.example.stoicmind.notifications.NotificationHelper
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.Locale
@@ -20,6 +21,7 @@ class RemindersActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        setupClickListeners()
         loadSavedSettings()
         setupListeners()
     }
@@ -33,6 +35,17 @@ class RemindersActivity : BaseActivity() {
         }
     }
 
+    private fun setupClickListeners() {
+        binding.btnTestRealtimeAlert.setOnClickListener {
+            NotificationHelper.showNotification(
+                context = this,
+                title = "Stoic Mind Real-Time Alert",
+                body = "\"You have power over your mind - not outside events. Realize this, and you will find strength.\" - Marcus Aurelius"
+            )
+            Toast.makeText(this, "Real-Time notification dispatched!", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
     private fun loadSavedSettings() {
         val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
 
