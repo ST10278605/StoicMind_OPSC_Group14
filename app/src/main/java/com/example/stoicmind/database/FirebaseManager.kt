@@ -120,8 +120,17 @@ class FirebaseManager @Inject constructor(
                 com.google.firebase.auth.GoogleAuthProvider.getCredential(idToken, null)
 
             val authResult = auth.signInWithCredential(credential).await()
-            val userId = authResult.user?.uid ?: ""
-            val user = getUser(userId)
+            val firebaseUser = authResult.user
+            val userId = firebaseUser?.uid ?: ""
+            var user = getUser(userId)
+
+            if (user.email.isEmpty() && firebaseUser != null) {
+                user = user.copy(
+                    email = firebaseUser.email ?: "",
+                    name = firebaseUser.displayName ?: firebaseUser.email?.substringBefore("@") ?: "User"
+                )
+                saveUser(user)
+            }
             mockUser = user
 
             Result.success(user)

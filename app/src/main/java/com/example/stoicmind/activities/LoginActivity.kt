@@ -35,6 +35,22 @@ class LoginActivity : BaseActivity() {
         
         setupGoogleSignIn()
         setupClickListeners()
+        handleRegisteredEmail(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleRegisteredEmail(intent)
+    }
+
+    private fun handleRegisteredEmail(intent: Intent?) {
+        val email = intent?.getStringExtra("registered_email")
+        if (!email.isNullOrBlank()) {
+            binding.etEmail.setText(email)
+            binding.etPassword.setText("")
+            binding.etPassword.requestFocus()
+        }
     }
     
     private fun setupGoogleSignIn() {
@@ -130,9 +146,12 @@ class LoginActivity : BaseActivity() {
                 val idToken = account?.idToken
                 if (idToken != null) {
                     authenticateWithGoogle(idToken)
+                } else {
+                    Toast.makeText(this, "Google sign in failed: ID Token is null", Toast.LENGTH_LONG).show()
                 }
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                android.util.Log.e("LoginActivity", "Google sign in failed with status code ${e.statusCode}", e)
+                Toast.makeText(this, "Google sign in failed (Error ${e.statusCode}): ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
     }

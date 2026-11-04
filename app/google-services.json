@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "30506117505-d626p8gqmp25aeo5q86iprlpalrcv7om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stoicmind",
+            "certificate_hash": "836b3213cf46b32facf087ff1dae3bb3cbb1966b"
+          }
+        },
+        {
           "client_id": "30506117505-lgvuhhhs2tne5v2kj7caquq1ucvvo6i1.apps.googleusercontent.com",
           "client_type": 3
         }
