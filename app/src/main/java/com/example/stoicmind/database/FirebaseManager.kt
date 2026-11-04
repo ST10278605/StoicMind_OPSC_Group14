@@ -216,34 +216,27 @@ class FirebaseManager @Inject constructor() {
     }
 
     // Journal Methods
+    // JOURNAL METHODS
+
     suspend fun saveJournalEntry(entry: JournalEntry): Result<String> {
         return try {
+            val userId = auth.currentUser?.uid
+                ?: throw Exception("User is not logged in")
+
             val docRef = db.collection(JOURNAL_COLLECTION).document()
-            val entryWithId = entry.copy(id = docRef.id)
+
+            val entryWithId = entry.copy(
+                id = docRef.id,
+                userId = userId
+            )
 
             docRef.set(entryWithId).await()
-
-            mockJournalEntries.removeAll { it.id == entryWithId.id }
-            mockJournalEntries.add(0, entryWithId)
 
             Result.success(docRef.id)
 
         } catch (e: Exception) {
-            Log.e(TAG, "Save journal entry failed, using mock", e)
-
-            val mockId = if (entry.id.isNotEmpty()) {
-                entry.id
-            } else {
-                java.util.UUID.randomUUID().toString()
-            }
-
-            val mockId = entry.id.ifEmpty { java.util.UUID.randomUUID().toString() }
-            val entryWithId = entry.copy(id = mockId)
-
-            mockJournalEntries.removeAll { it.id == entryWithId.id }
-            mockJournalEntries.add(0, entryWithId)
-
-            Result.success(mockId)
+            Log.e(TAG, "Save journal entry failed", e)
+            Result.failure(e)
         }
     }
 
@@ -258,61 +251,41 @@ class FirebaseManager @Inject constructor() {
                 .get()
                 .await()
 
-            val remoteEntries = querySnapshot.documents.mapNotNull {
+            querySnapshot.documents.mapNotNull {
                 it.toObject(JournalEntry::class.java)
             }
 
-            if (remoteEntries.isNotEmpty()) {
-                (remoteEntries + mockJournalEntries.filter {
-                    it.userId == userId
-                })
-                (remoteEntries + mockJournalEntries.filter { it.userId == userId })
-                    .asSequence()
-                    .distinctBy { it.id }
-                    .sortedByDescending { it.date }
-                    .toList()
-            } else {
-                mockJournalEntries
-                    .filter { it.userId == userId }
-                    .sortedByDescending { it.date }
-                mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
-            }
-
         } catch (e: Exception) {
-            Log.e(TAG, "Get journal entries failed, using mock", e)
-
-            mockJournalEntries
-                .filter { it.userId == userId }
-                .sortedByDescending { it.date }
-            mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
+            Log.e(TAG, "Get journal entries failed", e)
+            emptyList()
         }
     }
 
-    // Habit Methods
-    @Suppress("unused")
+
+// HABIT METHODS
+
     suspend fun saveHabit(habit: Habit): Result<String> {
         return try {
+            val userId = auth.currentUser?.uid
+                ?: throw Exception("User is not logged in")
+
             val docRef = db.collection(HABITS_COLLECTION).document()
-            val habitWithId = habit.copy(id = docRef.id)
+
+            val habitWithId = habit.copy(
+                id = docRef.id,
+                userId = userId
+            )
 
             docRef.set(habitWithId).await()
 
             Result.success(docRef.id)
 
         } catch (e: Exception) {
-            Log.e(TAG, "Save habit failed, using mock", e)
-
-            val mockId = java.util.UUID.randomUUID().toString()
-            val habitWithId = habit.copy(id = mockId)
-
-            mockHabits.add(habitWithId)
-
-            Result.success(mockId)
+            Log.e(TAG, "Save habit failed", e)
+            Result.failure(e)
         }
     }
 
-    
-    @Suppress("unused")
     suspend fun getHabits(userId: String): List<Habit> {
         return try {
             val querySnapshot = db.collection(HABITS_COLLECTION)
@@ -326,39 +299,36 @@ class FirebaseManager @Inject constructor() {
             }
 
         } catch (e: Exception) {
-            Log.e(TAG, "Get habits failed, using mock", e)
-
-            mockHabits.filter {
-                it.userId == userId && it.isActive
-            }
-            mockHabits.filter { (it.userId == userId) && it.isActive }
+            Log.e(TAG, "Get habits failed", e)
+            emptyList()
         }
     }
 
-    // Mood Methods
+
+// MOOD METHODS
+
     suspend fun saveMood(mood: MoodCheckIn): Result<String> {
         return try {
+            val userId = auth.currentUser?.uid
+                ?: throw Exception("User is not logged in")
+
             val docRef = db.collection(MOODS_COLLECTION).document()
-            val moodWithId = mood.copy(id = docRef.id)
+
+            val moodWithId = mood.copy(
+                id = docRef.id,
+                userId = userId
+            )
 
             docRef.set(moodWithId).await()
 
             Result.success(docRef.id)
 
         } catch (e: Exception) {
-            Log.e(TAG, "Save mood failed, using mock", e)
-
-            val mockId = java.util.UUID.randomUUID().toString()
-            val moodWithId = mood.copy(id = mockId)
-
-            mockMoods.add(moodWithId)
-
-            Result.success(mockId)
+            Log.e(TAG, "Save mood failed", e)
+            Result.failure(e)
         }
     }
 
-    
-    @Suppress("unused")
     suspend fun getMoods(userId: String): List<MoodCheckIn> {
         return try {
             val querySnapshot = db.collection(MOODS_COLLECTION)
@@ -376,18 +346,14 @@ class FirebaseManager @Inject constructor() {
             }
 
         } catch (e: Exception) {
-            Log.e(TAG, "Get moods failed, using mock", e)
-
-            mockMoods
-                .filter { it.userId == userId }
-                .sortedByDescending { it.date }
-                .take(30)
-            mockMoods.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.take(30).toList()
+            Log.e(TAG, "Get moods failed", e)
+            emptyList()
         }
     }
 
-    // Achievements Methods
-    @Suppress("unused")
+
+// ACHIEVEMENT METHODS
+
     suspend fun getAchievements(userId: String): List<Achievement> {
         return try {
             val querySnapshot = db.collection(ACHIEVEMENTS_COLLECTION)
@@ -400,8 +366,8 @@ class FirebaseManager @Inject constructor() {
             }
 
         } catch (e: Exception) {
-            Log.e(TAG, "Get achievements failed, using mock", e)
+            Log.e(TAG, "Get achievements failed", e)
             emptyList()
         }
     }
-}
+    }
