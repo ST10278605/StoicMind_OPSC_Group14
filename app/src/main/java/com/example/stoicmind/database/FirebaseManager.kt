@@ -6,23 +6,31 @@ import com.example.stoicmind.models.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.storage.FirebaseStorage
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FirebaseManager @Inject constructor() {
+class FirebaseManager @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
+    private val cloudinaryClient = OkHttpClient()
 
     private var mockUser: User? = null
     private val mockUsersMap = mutableMapOf<String, User>()
-    private val mockJournalEntries = mutableListOf<JournalEntry>()
-    private val mockHabits = mutableListOf<Habit>()
-    private val mockMoods = mutableListOf<MoodCheckIn>()
 
     companion object {
         private const val TAG = "FirebaseManager"
@@ -33,14 +41,16 @@ class FirebaseManager @Inject constructor() {
         private const val ACHIEVEMENTS_COLLECTION = "achievements"
     }
 
-    // Authentication Methods
+    // AUTHENTICATION METHODS
+
     suspend fun registerUser(email: String, password: String): Result<User> {
         return try {
-            val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+            val authResult =
+                auth.createUserWithEmailAndPassword(email, password).await()
 
             val user = User(
                 id = authResult.user?.uid ?: "",
-                email = email,
+                email = email
             )
 
             saveUser(user)
@@ -61,8 +71,12 @@ class FirebaseManager @Inject constructor() {
 
     suspend fun loginUser(email: String, password: String): Result<User> {
         return try {
-            val authResult = auth.signInWithEmailAndPassword(email, password).await()
-            val userId = authResult.user?.uid ?: ""
+            val authResult =
+                auth.signInWithEmailAndPassword(email, password).await()
+
+            val userId = authResult.user?.uid
+                ?: throw Exception("User ID not found")
+
             val user = getUser(userId)
             mockUser = user
 
@@ -72,21 +86,32 @@ class FirebaseManager @Inject constructor() {
             Log.e(TAG, "Login failed, falling back to mock mode", e)
 
             val mockId = "mock_uid_${email.hashCode()}"
-            val derivedName = email.substringBefore("@").replace(".", " ")
-                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
-            val existing = mockUsersMap[mockId]
-            val user = if (existing != null && existing.name.isNotEmpty()) {
-                existing
+
+            val derivedName = email.substringBefore("@")
+                .replace(".", " ")
+                .replaceFirstChar {
+                    if (it.isLowerCase()) {
+                        it.titlecase(java.util.Locale.getDefault())
+                    } else {
+                        it.toString()
+                    }
+                }
+
+            val existingUser = mockUsersMap[mockId]
+
+            val user = if (existingUser != null) {
+                existingUser
             } else {
-                User(id = mockId, name = derivedName, email = email)
+                User(
+                    id = mockId,
+                    name = derivedName,
+                    email = email
+                )
             }
-            val user = mockUsersMap[mockId] ?: User(
-                id = mockId,
-                email = email
-            )
 
             mockUser = user
             mockUsersMap[mockId] = user
+
             Result.success(user)
         }
     }
@@ -94,10 +119,15 @@ class FirebaseManager @Inject constructor() {
     suspend fun googleSignIn(idToken: String): Result<User> {
         return try {
             val credential =
-                com.google.firebase.auth.GoogleAuthProvider.getCredential(idToken, null)
+                com.google.firebase.auth.GoogleAuthProvider
+                    .getCredential(idToken, null)
 
-            val authResult = auth.signInWithCredential(credential).await()
-            val userId = authResult.user?.uid ?: ""
+            val authResult =
+                auth.signInWithCredential(credential).await()
+
+            val userId = authResult.user?.uid
+                ?: throw Exception("Google user ID not found")
+
             val user = getUser(userId)
             mockUser = user
 
@@ -105,10 +135,10 @@ class FirebaseManager @Inject constructor() {
 
         } catch (e: Exception) {
             Log.e(TAG, "Google sign in failed, falling back to mock mode", e)
-            val user = User(id = "mock_google_uid", name = "Stoic Practitioner", email = "mockuser@gmail.com")
 
             val user = User(
                 id = "mock_google_uid",
+                name = "Stoic Practitioner",
                 email = "mockuser@gmail.com"
             )
 
@@ -122,8 +152,6 @@ class FirebaseManager @Inject constructor() {
             auth.signOut()
         } catch (e: Exception) {
             Log.e(TAG, "Logout failed", e)
-        } catch (_: Exception) {
-            // Ignore
         }
 
         mockUser = null
@@ -132,12 +160,14 @@ class FirebaseManager @Inject constructor() {
     fun getCurrentUserId(): String? {
         return try {
             auth.currentUser?.uid ?: mockUser?.id
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            Log.e(TAG, "Could not get current user ID", e)
             mockUser?.id
         }
     }
 
-    // User Methods
+    // USER METHODS
+
     suspend fun saveUser(user: User) {
         try {
             db.collection(USERS_COLLECTION)
@@ -157,26 +187,46 @@ class FirebaseManager @Inject constructor() {
                 .document(userId)
                 .get()
                 .await()
-            val remoteUser = document.toObject(User::class.java)
-            val user = remoteUser ?: mockUsersMap[userId] ?: mockUser ?: User(id = userId)
+
+            val user = document.toObject(User::class.java)
+                ?: mockUsersMap[userId]
+                ?: mockUser
+                ?: User(id = userId)
+
             if (user.name.isEmpty() && user.email.isNotEmpty()) {
-                val derivedName = user.email.substringBefore("@").replace(".", " ")
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+                val derivedName = user.email.substringBefore("@")
+                    .replace(".", " ")
+                    .replaceFirstChar {
+                        if (it.isLowerCase()) {
+                            it.titlecase(java.util.Locale.getDefault())
+                        } else {
+                            it.toString()
+                        }
+                    }
+
                 user.copy(name = derivedName)
             } else {
                 user
             }
 
-            document.toObject(User::class.java)
-                ?: mockUsersMap[userId]
-                ?: User(id = userId)
-
         } catch (e: Exception) {
             Log.e(TAG, "Get user failed, using mock", e)
-            val user = mockUsersMap[userId] ?: mockUser ?: User(id = userId)
+
+            val user = mockUsersMap[userId]
+                ?: mockUser
+                ?: User(id = userId)
+
             if (user.name.isEmpty() && user.email.isNotEmpty()) {
-                val derivedName = user.email.substringBefore("@").replace(".", " ")
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+                val derivedName = user.email.substringBefore("@")
+                    .replace(".", " ")
+                    .replaceFirstChar {
+                        if (it.isLowerCase()) {
+                            it.titlecase(java.util.Locale.getDefault())
+                        } else {
+                            it.toString()
+                        }
+                    }
+
                 user.copy(name = derivedName)
             } else {
                 user
@@ -184,38 +234,67 @@ class FirebaseManager @Inject constructor() {
         }
     }
 
-    // Firebase Storage: Upload Profile Image
+    // PROFILE IMAGE UPLOAD
+
+    // CLOUDINARY PROFILE IMAGE UPLOAD
+
     suspend fun uploadProfileImage(
         userId: String,
         imageUri: Uri
     ): Result<String> {
-        return try {
-            val imageRef = storage.reference
-                .child("profile_images/$userId.jpg")
+        return withContext(Dispatchers.IO) {
+            try {
+                val imageBytes = context.contentResolver
+                    .openInputStream(imageUri)
+                    ?.use { it.readBytes() }
+                    ?: throw Exception("Could not read selected image")
 
-            // Upload the selected image
-            imageRef.putFile(imageUri).await()
+                val requestBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("upload_preset", "stoic_profile_upload")
+                    .addFormDataPart(
+                        "folder",
+                        "stoic-profile-images"
+                    )
+                    .addFormDataPart(
+                        "file",
+                        "profile_$userId.jpg",
+                        imageBytes.toRequestBody("image/*".toMediaType())
+                    )
+                    .build()
 
-            // Retrieve the image download URL
-            val downloadUrl = imageRef.downloadUrl.await().toString()
+                val request = Request.Builder()
+                    .url("https://api.cloudinary.com/v1_1/komqlp72/image/upload")
+                    .post(requestBody)
+                    .build()
 
-            // Save the URL in the user's Firestore document
-            db.collection(USERS_COLLECTION)
-                .document(userId)
-                .update("profileImageUrl", downloadUrl)
-                .await()
+                val response = cloudinaryClient.newCall(request).execute()
 
-            Log.d(TAG, "Profile image uploaded successfully")
+                val responseBody = response.body?.string()
+                    ?: throw Exception("Empty Cloudinary response")
 
-            Result.success(downloadUrl)
+                if (!response.isSuccessful) {
+                    throw Exception("Cloudinary upload failed: $responseBody")
+                }
 
-        } catch (e: Exception) {
-            Log.e(TAG, "Profile image upload failed", e)
-            Result.failure(e)
+                val secureUrl = JSONObject(responseBody)
+                    .getString("secure_url")
+
+                db.collection(USERS_COLLECTION)
+                    .document(userId)
+                    .update("profileImageUrl", secureUrl)
+                    .await()
+
+                Log.d(TAG, "Cloudinary profile image uploaded successfully")
+
+                Result.success(secureUrl)
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Cloudinary profile image upload failed", e)
+                Result.failure(e)
+            }
         }
     }
-
-    // Journal Methods
     // JOURNAL METHODS
 
     suspend fun saveJournalEntry(entry: JournalEntry): Result<String> {
@@ -261,8 +340,7 @@ class FirebaseManager @Inject constructor() {
         }
     }
 
-
-// HABIT METHODS
+    // HABIT METHODS
 
     suspend fun saveHabit(habit: Habit): Result<String> {
         return try {
@@ -304,8 +382,7 @@ class FirebaseManager @Inject constructor() {
         }
     }
 
-
-// MOOD METHODS
+    // MOOD METHODS
 
     suspend fun saveMood(mood: MoodCheckIn): Result<String> {
         return try {
@@ -351,8 +428,7 @@ class FirebaseManager @Inject constructor() {
         }
     }
 
-
-// ACHIEVEMENT METHODS
+    // ACHIEVEMENT METHODS
 
     suspend fun getAchievements(userId: String): List<Achievement> {
         return try {
@@ -370,4 +446,4 @@ class FirebaseManager @Inject constructor() {
             emptyList()
         }
     }
-    }
+}
