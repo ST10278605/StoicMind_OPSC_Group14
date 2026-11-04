@@ -53,7 +53,7 @@ class RegisterActivity : BaseActivity() {
     }
 
     private fun validateInputs(name: String, email: String, password: String): Boolean {
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (name.isBlank() || email.isBlank() || password.isBlank()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return false
         }
@@ -63,11 +63,6 @@ class RegisterActivity : BaseActivity() {
         }
         if (password.length < 6) {
             Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
-            return false
-        }
-        val hasSpecialChar = password.any { !it.isLetterOrDigit() }
-        if (!hasSpecialChar) {
-            Toast.makeText(this, "Please add a special character to your password (after the 6 required letters or numbers)", Toast.LENGTH_LONG).show()
             return false
         }
         return true
