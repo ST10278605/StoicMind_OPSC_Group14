@@ -1,5 +1,6 @@
 package com.example.stoicmind.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,14 @@ class JournalAdapter(
             } else {
                 tvEntryMood.visibility = View.GONE
                 ivMoodIndicator.visibility = View.VISIBLE
+            }
+
+            if (entry.isSynced) {
+                tvSyncStatus.text = "✓ Synced"
+                tvSyncStatus.setTextColor(Color.parseColor("#2E7D32"))
+            } else {
+                tvSyncStatus.text = "⚡ Pending Sync"
+                tvSyncStatus.setTextColor(Color.parseColor("#E65100"))
             }
 
             root.setOnClickListener {
