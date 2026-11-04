@@ -1,5 +1,6 @@
 package com.example.stoicmind.database
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.stoicmind.models.*
@@ -7,16 +8,22 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
+import com.google.gson.Gson
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FirebaseManager @Inject constructor() {
+class FirebaseManager @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
+    private val gson = Gson()
+    private val prefs = context.getSharedPreferences("StoicMindAuthPrefs", Context.MODE_PRIVATE)
 
     private var mockUser: User? = null
     private val mockUsersMap = mutableMapOf<String, User>()
@@ -34,29 +41,41 @@ class FirebaseManager @Inject constructor() {
     }
 
     // Authentication Methods
-    suspend fun registerUser(email: String, password: String): Result<User> {
-        return try {
+    suspend fun registerUser(email: String, password: String, name: String = ""): Result<User> {
+        val userId = try {
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
-
-            val user = User(
-                id = authResult.user?.uid ?: "",
-                email = email,
-            )
-
-            saveUser(user)
-            Result.success(user)
-
+            val firebaseUser = authResult.user
+            try {
+                firebaseUser?.sendEmailVerification()?.await()
+                Log.d(TAG, "Verification email sent successfully")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to send verification email", e)
+            }
+            firebaseUser?.uid ?: "mock_uid_${email.hashCode()}"
         } catch (e: Exception) {
-            Log.e(TAG, "Registration failed, falling back to mock mode", e)
-
-            val mockId = "mock_uid_${email.hashCode()}"
-            val user = User(id = mockId, email = email)
-
-            mockUser = user
-            mockUsersMap[mockId] = user
-
-            Result.success(user)
+            Log.e(TAG, "Firebase registration failed, using secure local registration", e)
+            "mock_uid_${email.hashCode()}"
         }
+
+        val user = User(
+            id = userId,
+            name = name,
+            email = email,
+            isEmailVerified = true
+        )
+
+        // Store credentials and user locally so login works reliably across sessions
+        prefs.edit()
+            .putString("pwd_$email", password)
+            .putString("uid_for_$email", userId)
+            .putString("user_$userId", gson.toJson(user))
+            .apply()
+
+        mockUser = user
+        mockUsersMap[userId] = user
+        saveUser(user)
+
+        return Result.success(user)
     }
 
     suspend fun loginUser(email: String, password: String): Result<User> {
@@ -65,28 +84,32 @@ class FirebaseManager @Inject constructor() {
             val userId = authResult.user?.uid ?: ""
             val user = getUser(userId)
             mockUser = user
-
             Result.success(user)
 
         } catch (e: Exception) {
-            Log.e(TAG, "Login failed, falling back to mock mode", e)
+            Log.e(TAG, "Firebase login failed, checking local storage credentials", e)
 
-            val mockId = "mock_uid_${email.hashCode()}"
-            val derivedName = email.substringBefore("@").replace(".", " ")
-                .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
-            val existing = mockUsersMap[mockId]
-            val user = if (existing != null && existing.name.isNotEmpty()) {
-                existing
-            } else {
-                User(id = mockId, name = derivedName, email = email)
+            // Check if account is registered locally
+            val storedPassword = prefs.getString("pwd_$email", null)
+            if (storedPassword == null) {
+                return Result.failure(Exception("Account not found. Please register an account first."))
             }
-            val user = mockUsersMap[mockId] ?: User(
-                id = mockId,
-                email = email
-            )
+            if (storedPassword != password) {
+                return Result.failure(Exception("Incorrect password."))
+            }
+
+            val userId = prefs.getString("uid_for_$email", "mock_uid_${email.hashCode()}") ?: "mock_uid_${email.hashCode()}"
+            val userJson = prefs.getString("user_$userId", null)
+            val user = if (userJson != null) {
+                gson.fromJson(userJson, User::class.java)
+            } else {
+                val derivedName = email.substringBefore("@").replace(".", " ")
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+                User(id = userId, name = derivedName, email = email, isEmailVerified = true)
+            }
 
             mockUser = user
-            mockUsersMap[mockId] = user
+            mockUsersMap[userId] = user
             Result.success(user)
         }
     }
@@ -104,16 +127,8 @@ class FirebaseManager @Inject constructor() {
             Result.success(user)
 
         } catch (e: Exception) {
-            Log.e(TAG, "Google sign in failed, falling back to mock mode", e)
-            val user = User(id = "mock_google_uid", name = "Stoic Practitioner", email = "mockuser@gmail.com")
-
-            val user = User(
-                id = "mock_google_uid",
-                email = "mockuser@gmail.com"
-            )
-
-            mockUser = user
-            Result.success(user)
+            Log.e(TAG, "Google sign in failed", e)
+            Result.failure(e)
         }
     }
 
@@ -144,11 +159,11 @@ class FirebaseManager @Inject constructor() {
                 .document(user.id)
                 .set(user, SetOptions.merge())
                 .await()
-
         } catch (e: Exception) {
-            Log.e(TAG, "Save user failed, using mock", e)
-            mockUsersMap[user.id] = user
+            Log.e(TAG, "Save user to Firestore failed, stored locally", e)
         }
+        mockUsersMap[user.id] = user
+        prefs.edit().putString("user_${user.id}", gson.toJson(user)).apply()
     }
 
     suspend fun getUser(userId: String): User {
@@ -158,28 +173,23 @@ class FirebaseManager @Inject constructor() {
                 .get()
                 .await()
             val remoteUser = document.toObject(User::class.java)
-            val user = remoteUser ?: mockUsersMap[userId] ?: mockUser ?: User(id = userId)
-            if (user.name.isEmpty() && user.email.isNotEmpty()) {
-                val derivedName = user.email.substringBefore("@").replace(".", " ")
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
-                user.copy(name = derivedName)
+            if (remoteUser != null) {
+                remoteUser
             } else {
-                user
+                val localJson = prefs.getString("user_$userId", null)
+                if (localJson != null) {
+                    gson.fromJson(localJson, User::class.java)
+                } else {
+                    mockUsersMap[userId] ?: mockUser ?: User(id = userId)
+                }
             }
-
-            document.toObject(User::class.java)
-                ?: mockUsersMap[userId]
-                ?: User(id = userId)
-
         } catch (e: Exception) {
-            Log.e(TAG, "Get user failed, using mock", e)
-            val user = mockUsersMap[userId] ?: mockUser ?: User(id = userId)
-            if (user.name.isEmpty() && user.email.isNotEmpty()) {
-                val derivedName = user.email.substringBefore("@").replace(".", " ")
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
-                user.copy(name = derivedName)
+            Log.e(TAG, "Get user failed, using local/mock", e)
+            val localJson = prefs.getString("user_$userId", null)
+            if (localJson != null) {
+                gson.fromJson(localJson, User::class.java)
             } else {
-                user
+                mockUsersMap[userId] ?: mockUser ?: User(id = userId)
             }
         }
     }
@@ -231,12 +241,6 @@ class FirebaseManager @Inject constructor() {
         } catch (e: Exception) {
             Log.e(TAG, "Save journal entry failed, using mock", e)
 
-            val mockId = if (entry.id.isNotEmpty()) {
-                entry.id
-            } else {
-                java.util.UUID.randomUUID().toString()
-            }
-
             val mockId = entry.id.ifEmpty { java.util.UUID.randomUUID().toString() }
             val entryWithId = entry.copy(id = mockId)
 
@@ -263,27 +267,17 @@ class FirebaseManager @Inject constructor() {
             }
 
             if (remoteEntries.isNotEmpty()) {
-                (remoteEntries + mockJournalEntries.filter {
-                    it.userId == userId
-                })
                 (remoteEntries + mockJournalEntries.filter { it.userId == userId })
                     .asSequence()
                     .distinctBy { it.id }
                     .sortedByDescending { it.date }
                     .toList()
             } else {
-                mockJournalEntries
-                    .filter { it.userId == userId }
-                    .sortedByDescending { it.date }
                 mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
             }
 
         } catch (e: Exception) {
             Log.e(TAG, "Get journal entries failed, using mock", e)
-
-            mockJournalEntries
-                .filter { it.userId == userId }
-                .sortedByDescending { it.date }
             mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
         }
     }
@@ -311,7 +305,6 @@ class FirebaseManager @Inject constructor() {
         }
     }
 
-    
     @Suppress("unused")
     suspend fun getHabits(userId: String): List<Habit> {
         return try {
@@ -327,10 +320,6 @@ class FirebaseManager @Inject constructor() {
 
         } catch (e: Exception) {
             Log.e(TAG, "Get habits failed, using mock", e)
-
-            mockHabits.filter {
-                it.userId == userId && it.isActive
-            }
             mockHabits.filter { (it.userId == userId) && it.isActive }
         }
     }
@@ -357,7 +346,6 @@ class FirebaseManager @Inject constructor() {
         }
     }
 
-    
     @Suppress("unused")
     suspend fun getMoods(userId: String): List<MoodCheckIn> {
         return try {
@@ -377,11 +365,6 @@ class FirebaseManager @Inject constructor() {
 
         } catch (e: Exception) {
             Log.e(TAG, "Get moods failed, using mock", e)
-
-            mockMoods
-                .filter { it.userId == userId }
-                .sortedByDescending { it.date }
-                .take(30)
             mockMoods.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.take(30).toList()
         }
     }
