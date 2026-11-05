@@ -17,7 +17,6 @@ object LocaleHelper {
     }
 
     fun setLocale(language: String) {
-
         Log.d("LANGUAGE_TEST", "Selected language: $language")
 
         val localeList = LocaleListCompat.forLanguageTags(language)
@@ -26,7 +25,9 @@ object LocaleHelper {
 
         Log.d(
             "LANGUAGE_TEST",
-            "Saved application locale: ${AppCompatDelegate.getApplicationLocales().toLanguageTags()}"
+            "Saved application locale: ${
+                AppCompatDelegate.getApplicationLocales().toLanguageTags()
+            }"
         )
     }
 }

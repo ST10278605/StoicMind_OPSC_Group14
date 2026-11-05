@@ -1,10 +1,12 @@
 package com.example.stoicmind.activities
 
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
@@ -20,7 +22,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import android.util.Log
 
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity() {
@@ -39,13 +40,11 @@ class ProfileActivity : BaseActivity() {
         
         setupToolbar()
         setupClickListeners()
-        setupLanguageSpinner()
     }
 
 
-    private fun setupLanguageSpinner() {
 
-        languageSpinner = binding.languageSpinner
+    private fun showLanguageDialog() {
 
         val languages = arrayOf(
             "English",
@@ -61,50 +60,36 @@ class ProfileActivity : BaseActivity() {
             "nso"
         )
 
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            languages
-        )
+        val currentLanguage = LocaleHelper.getLanguage()
 
-        adapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-
-        languageSpinner.adapter = adapter
-
-        val currentLang = LocaleHelper.getLanguage()
-
-        val initialPosition = languageCodes.indexOf(currentLang)
+        val selectedPosition = languageCodes.indexOf(currentLanguage)
             .coerceAtLeast(0)
 
-        languageSpinner.setSelection(initialPosition, false)
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Choose Language")
+            .setSingleChoiceItems(
+                languages,
+                selectedPosition
+            ) { dialog, which ->
 
-        languageSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
+                val selectedLanguage = languageCodes[which]
 
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedLanguage = languageCodes[position]
+                Log.d(
+                    "LANGUAGE_TEST",
+                    "Language selected: $selectedLanguage"
+                )
 
-                    Log.d("LANGUAGE_TEST", "Spinner position: $position")
-                    Log.d("LANGUAGE_TEST", "Selected language: $selectedLanguage")
-                    Log.d("LANGUAGE_TEST", "Current language: ${LocaleHelper.getLanguage()}")
+                if (selectedLanguage != LocaleHelper.getLanguage()) {
 
-                    if (selectedLanguage != LocaleHelper.getLanguage()) {
-                        LocaleHelper.setLocale(selectedLanguage)
-                    }
+                    LocaleHelper.setLocale(selectedLanguage)
+
                 }
-                override fun onNothingSelected(
-                    parent: AdapterView<*>?
-                ) {}
-            }
-    }
 
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -157,7 +142,7 @@ class ProfileActivity : BaseActivity() {
         }
 
         binding.btnLanguage.setOnClickListener {
-            binding.languageSpinner.performClick()
+            showLanguageDialog()
         }
 
         binding.btnPrivacyPolicy.setOnClickListener {

@@ -1,4 +1,3 @@
-
 package com.example.stoicmind.activities
 
 import android.os.Bundle
@@ -8,7 +7,6 @@ import com.example.stoicmind.R
 abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         val sharedPreferences = getSharedPreferences(
             "stoic_mind_prefs",
             MODE_PRIVATE
