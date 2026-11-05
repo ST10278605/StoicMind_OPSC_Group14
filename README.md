@@ -115,6 +115,12 @@ The achievements section tracks user progress using badge-style cards. This adds
 
 Screenshot:<img width="738" height="1600" alt="9" src="https://github.com/user-attachments/assets/248c7a3d-0a76-45ce-b634-7e7ffe526e98" />
 
+## Google Play publishing attempt
+
+I also attempted to publish Stoic Mind on the Google Play Store. Unfortunately, creating a Google Play developer account required a paid registration, and I was not able to cover the cost at the time, so I was unable to complete the app publication.
+
+![Google Play publishing attempt](assets/google-play-publishing-attempt.svg)
+
 
 ## Firebase and cloud data
 
