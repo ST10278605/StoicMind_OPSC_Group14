@@ -1,6 +1,5 @@
 package com.example.stoicmind.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -78,7 +77,7 @@ class HabitsActivity : BaseActivity() {
 
     private fun loadHabits() {
         val userId = getUserId()
-        val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("stoic_mind_prefs", MODE_PRIVATE)
         val habitsJson = prefs.getString("stoic_mind_habits_$userId", null)
 
         if (habitsJson.isNullOrBlank()) {
@@ -124,7 +123,7 @@ class HabitsActivity : BaseActivity() {
     }
 
     private fun saveHabitsLocally(userId: String, habits: List<Habit>) {
-        val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("stoic_mind_prefs", MODE_PRIVATE)
         val json = gson.toJson(habits)
         prefs.edit().putString("stoic_mind_habits_$userId", json).apply()
     }
