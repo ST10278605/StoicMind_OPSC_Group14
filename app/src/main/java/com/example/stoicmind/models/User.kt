@@ -12,6 +12,7 @@ data class User(
     val points: Int = 0,
     val level: Int = 1,
     val streak: Int = 0,
+    val isEmailVerified: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis(),
 )

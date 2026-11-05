@@ -59,14 +59,34 @@
                 app:tint="@color/colorTextSecondary" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvEntryDate"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="August 22, 2026 • 09:00 AM"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="12sp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tvEntryDate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="August 22, 2026 • 09:00 AM"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvSyncStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="Synced"
+                android:textColor="#2E7D32"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_spinner" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvEntryPreview"

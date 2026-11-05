@@ -89,4 +89,17 @@ class ExampleUnitTest {
         assertEquals("Courage", updatedUser.primaryVirtue)
         assertEquals("serene", updatedUser.theme)
     }
+
+    @Test
+    fun userModelCreationWithEmail() {
+        val user = com.example.stoicmind.models.User(
+            id = "user_456",
+            name = "Sipho Sithole",
+            email = "sipho@example.com"
+        )
+
+        assertEquals("user_456", user.id)
+        assertEquals("Sipho Sithole", user.name)
+        assertEquals("sipho@example.com", user.email)
+    }
 }

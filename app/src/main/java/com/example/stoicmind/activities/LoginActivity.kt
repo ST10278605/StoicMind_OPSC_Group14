@@ -3,7 +3,6 @@ package com.example.stoicmind.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.stoicmind.R
 import com.example.stoicmind.databinding.ActivityLoginBinding
 import com.example.stoicmind.database.FirebaseManager
@@ -36,6 +35,22 @@ class LoginActivity : BaseActivity() {
         
         setupGoogleSignIn()
         setupClickListeners()
+        handleRegisteredEmail(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleRegisteredEmail(intent)
+    }
+
+    private fun handleRegisteredEmail(intent: Intent?) {
+        val email = intent?.getStringExtra("registered_email")
+        if (!email.isNullOrBlank()) {
+            binding.etEmail.setText(email)
+            binding.etPassword.setText("")
+            binding.etPassword.requestFocus()
+        }
     }
     
     private fun setupGoogleSignIn() {
@@ -49,7 +64,7 @@ class LoginActivity : BaseActivity() {
     
     private fun setupClickListeners() {
         binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text.toString()
+            val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString()
             
             if (validateInputs(email, password)) {
@@ -67,6 +82,7 @@ class LoginActivity : BaseActivity() {
         
         binding.tvForgotPassword.setOnClickListener {
             // Navigate to forgot password screen
+            Toast.makeText(this, "Forgot password feature coming soon", Toast.LENGTH_SHORT).show()
         }
     }
     
@@ -79,6 +95,10 @@ class LoginActivity : BaseActivity() {
             Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show()
             return false
         }
+        if (password.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+            return false
+        }
         return true
     }
     
@@ -88,12 +108,14 @@ class LoginActivity : BaseActivity() {
                 val result = firebaseManager.loginUser(email, password)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccess) {
+                        Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
                         navigateToDashboard()
                     } else {
+                        val errorMsg = result.exceptionOrNull()?.message ?: "Unknown error"
                         Toast.makeText(
                             this@LoginActivity,
-                            "Login failed: ${result.exceptionOrNull()?.message}",
-                            Toast.LENGTH_SHORT
+                            "Login failed: $errorMsg",
+                            Toast.LENGTH_LONG
                         ).show()
                     }
                 }
@@ -102,7 +124,7 @@ class LoginActivity : BaseActivity() {
                     Toast.makeText(
                         this@LoginActivity,
                         "Error: ${e.message}",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG
                     ).show()
                 }
             }
@@ -110,8 +132,10 @@ class LoginActivity : BaseActivity() {
     }
     
     private fun signInWithGoogle() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
+        googleSignInClient.signOut().addOnCompleteListener {
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
     }
     
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -124,9 +148,12 @@ class LoginActivity : BaseActivity() {
                 val idToken = account?.idToken
                 if (idToken != null) {
                     authenticateWithGoogle(idToken)
+                } else {
+                    Toast.makeText(this, "Google sign in failed: ID Token is null", Toast.LENGTH_LONG).show()
                 }
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                android.util.Log.e("LoginActivity", "Google sign in failed with status code ${e.statusCode}", e)
+                Toast.makeText(this, "Google sign in failed (Error ${e.statusCode}): ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
