@@ -1,0 +1,58 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#f3f3f3"/>
+
+  <rect x="40" y="30" width="700" height="840" rx="18" fill="#f6f6f6" stroke="#d5d5d5" stroke-width="2"/>
+  <rect x="710" y="30" width="850" height="840" rx="18" fill="#f6f6f6" stroke="#d5d5d5" stroke-width="2"/>
+
+  <text x="110" y="110" font-family="Arial, sans-serif" font-size="33" font-weight="500" fill="#303030">Creating a developer account</text>
+
+  <rect x="110" y="170" width="440" height="70" rx="10" fill="#ffffff" stroke="#d7d7d7"/>
+  <circle cx="145" cy="205" r="18" fill="#d75d3b"/>
+  <text x="170" y="215" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff">S</text>
+  <text x="200" y="216" font-family="Arial, sans-serif" font-size="24" fill="#2d2d2d">sipeshilemavuso08@gmail.co...</text>
+
+  <text x="825" y="110" font-family="Arial, sans-serif" font-size="46" font-weight="400" fill="#3c3c3c">Google Play Console</text>
+
+  <line x1="815" y1="165" x2="1470" y2="165" stroke="#d0d0d0"/>
+
+  <text x="860" y="265" font-family="Arial, sans-serif" font-size="56" font-weight="400" fill="#2d2d2d">To get started, choose an account type</text>
+
+  <text x="860" y="335" font-family="Arial, sans-serif" font-size="31" fill="#414141">
+    <tspan>Who are you creating an account for? </tspan>
+    <tspan fill="#1a73e8">Learn more about which account type to choose</tspan>
+  </text>
+
+  <text x="860" y="425" font-family="Arial, sans-serif" font-size="34" font-weight="500" fill="#2a2a2a">An organization</text>
+
+  <text x="860" y="488" font-family="Arial, sans-serif" font-size="29" fill="#4a4a4a">Choose if you're creating an account for an organization or business. You'll</text>
+  <text x="860" y="524" font-family="Arial, sans-serif" font-size="29" fill="#4a4a4a">need to verify your organization.</text>
+
+  <rect x="860" y="560" width="390" height="54" rx="6" fill="#ffffff" stroke="#cfcfcf"/>
+  <circle cx="900" cy="587" r="10" fill="none" stroke="#7d7d7d" stroke-width="2"/>
+  <text x="922" y="595" font-family="Arial, sans-serif" font-size="27" fill="#4a4a4a">Organization type</text>
+  <path d="M1220 592 l10 10 l10 -10" stroke="#5f5f5f" fill="none" stroke-width="2"/>
+  <rect x="1160" y="574" width="68" height="30" fill="none"/>
+
+  <text x="921" y="633" font-family="Arial, sans-serif" font-size="25" fill="#4a4a4a">A nonprofit</text>
+  <path d="M1176 618 l10 10 l10 -10" stroke="#5f5f5f" fill="none" stroke-width="2"/>
+
+  <text x="860" y="720" font-family="Arial, sans-serif" font-size="36" fill="#1a73e8" font-weight="500">Get started →</text>
+
+  <g transform="translate(1220, 360)">
+    <rect x="0" y="0" width="290" height="220" rx="18" fill="#f0f0f0"/>
+    <rect x="8" y="10" width="110" height="90" fill="#f7d564"/>
+    <rect x="138" y="10" width="70" height="70" fill="#f7d564"/>
+    <rect x="222" y="10" width="50" height="100" fill="#c7d5dc"/>
+    <rect x="18" y="120" width="90" height="70" fill="#b7d8e8"/>
+    <rect x="120" y="120" width="80" height="80" fill="#8ab4d8"/>
+    <rect x="220" y="120" width="48" height="85" fill="#b5d07a"/>
+    <circle cx="80" cy="75" r="18" fill="#1d6fe2"/>
+    <circle cx="150" cy="90" r="16" fill="#1d79c6"/>
+    <circle cx="232" cy="150" r="17" fill="#ffbf00"/>
+    <circle cx="90" cy="170" r="18" fill="#7db8e8"/>
+    <circle cx="170" cy="190" r="18" fill="#3a6fd6"/>
+    <path d="M50 130 L90 100 L120 130 Z" fill="#dfe7eb"/>
+    <path d="M150 100 L185 130 L120 130 Z" fill="#dfe7eb"/>
+    <rect x="128" y="170" width="65" height="60" fill="#dfe7eb"/>
+  </g>
+</svg>
