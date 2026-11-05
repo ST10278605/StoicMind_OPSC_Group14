@@ -22,6 +22,6 @@ interface CommunityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCommunityPosts(posts: List<CommunityEntity>): List<Long>
 
-    @Query("UPDATE community_posts SET likesCount = likesCount + :delta, isLikedByMe = :isLiked WHERE id = :id")
+    @Query("UPDATE community_posts SET isLikedByMe = :isLiked, likesCount = MAX(0, likesCount + :delta) WHERE id = :id")
     suspend fun updateLikeStatus(id: String, isLiked: Boolean, delta: Int): Int
 }
