@@ -48,16 +48,30 @@ class ProfileActivity : BaseActivity() {
 
         val languages = arrayOf(
             "English",
-            "Zulu",
+            "Afrikaans",
+            "isiZulu",
+            "isiXhosa",
+            "Sepedi (Northern Sotho)",
             "Setswana",
-            "Sepedi"
+            "Sesotho (Southern Sotho)",
+            "Xitsonga",
+            "siSwati",
+            "Tshivenda",
+            "isiNdebele"
         )
 
         val languageCodes = arrayOf(
             "en",
+            "af",
             "zu",
+            "xh",
+            "nso",
             "tn",
-            "nso"
+            "st",
+            "ts",
+            "ss",
+            "ve",
+            "nr"
         )
 
         val currentLanguage = LocaleHelper.getLanguage()
@@ -66,7 +80,7 @@ class ProfileActivity : BaseActivity() {
             .coerceAtLeast(0)
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Choose Language")
+            .setTitle(R.string.select_language)
             .setSingleChoiceItems(
                 languages,
                 selectedPosition
@@ -80,14 +94,13 @@ class ProfileActivity : BaseActivity() {
                 )
 
                 if (selectedLanguage != LocaleHelper.getLanguage()) {
-
                     LocaleHelper.setLocale(selectedLanguage)
-
+                    recreate()
                 }
 
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
     }
 
