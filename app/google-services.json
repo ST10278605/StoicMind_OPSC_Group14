@@ -1,27 +1,44 @@
 {
   "project_info": {
-    "project_number": "509923535533",
-    "project_id": "stoicmind-42056",
-    "storage_bucket": "stoicmind-42056.firebasestorage.app"
+    "project_number": "30506117505",
+    "project_id": "stoic-mind-71856",
+    "storage_bucket": "stoic-mind-71856.firebasestorage.app"
   },
-
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:509923535533:android:e054a755144c5da58d3424",
+        "mobilesdk_app_id": "1:30506117505:android:81919b91c990247217a080",
         "android_client_info": {
           "package_name": "com.example.stoicmind"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "30506117505-d626p8gqmp25aeo5q86iprlpalrcv7om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stoicmind",
+            "certificate_hash": "836b3213cf46b32facf087ff1dae3bb3cbb1966b"
+          }
+        },
+        {
+          "client_id": "30506117505-lgvuhhhs2tne5v2kj7caquq1ucvvo6i1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDGh6UIVOsOdRLDiPZT0WjDtvyfV9Kh66M"
+          "current_key": "AIzaSyC71Dpc55RQ2lqa8dqssOnalz0XXyVzHfM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "30506117505-lgvuhhhs2tne5v2kj7caquq1ucvvo6i1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

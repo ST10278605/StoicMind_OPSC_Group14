@@ -15,7 +15,7 @@ class ExampleUnitTest {
             id = "1",
             text = "The obstacle is the way.",
             author = "Marcus Aurelius",
-            category = "Stoicism"
+            category = "Stoicism",
         )
 
         assertEquals("The obstacle is the way.", quote.text)
@@ -67,5 +67,39 @@ class ExampleUnitTest {
         assertEquals("Today is a peaceful day.", entry.content)
         assertEquals("😊 Happy", entry.mood)
         assertTrue(entry.date > 0)
+    }
+
+    @Test
+    fun userSettingsCanBeUpdatedCorrectly() {
+        val user = com.example.stoicmind.models.User(
+            id = "user_1",
+            name = "John Doe",
+            email = "john@example.com",
+            primaryVirtue = "Wisdom",
+            theme = "classic"
+        )
+
+        val updatedUser = user.copy(
+            name = "Jane Doe",
+            primaryVirtue = "Courage",
+            theme = "serene"
+        )
+
+        assertEquals("Jane Doe", updatedUser.name)
+        assertEquals("Courage", updatedUser.primaryVirtue)
+        assertEquals("serene", updatedUser.theme)
+    }
+
+    @Test
+    fun userModelCreationWithEmail() {
+        val user = com.example.stoicmind.models.User(
+            id = "user_456",
+            name = "Sipho Sithole",
+            email = "sipho@example.com"
+        )
+
+        assertEquals("user_456", user.id)
+        assertEquals("Sipho Sithole", user.name)
+        assertEquals("sipho@example.com", user.email)
     }
 }
