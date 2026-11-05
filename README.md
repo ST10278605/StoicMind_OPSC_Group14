@@ -1,6 +1,6 @@
 # Stoic Mind
 
-## Presentation link:
+## Presentation link: https://drive.google.com/file/d/1PYvwR0MzWhqb61jQZ_SZ5ks5LbNfylRS/view
 ## Github link: https://github.com/ST10278605/StoicMind_OPSC_Group14/ 
 
 ## Purpose
