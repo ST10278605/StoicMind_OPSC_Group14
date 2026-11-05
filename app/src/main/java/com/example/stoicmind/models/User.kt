@@ -10,7 +10,7 @@ data class User(
     val primaryVirtue: String = "Wisdom",
     val preferences: List<String> = emptyList(),
     val points: Int = 0,
-    val level: Int = 1,
+    val level: Int = 0,
     val streak: Int = 0,
     val isEmailVerified: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),

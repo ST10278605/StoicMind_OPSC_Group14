@@ -59,33 +59,37 @@
                         android:layout_marginStart="24dp">
 
                         <TextView
+                            android:id="@+id/tvUserLevel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Level 5"
+                            android:text="Level 0"
                             android:textColor="@color/colorTextPrimary"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvUserTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Stoic Learner"
+                            android:text="Initiate"
                             android:textColor="@color/colorTextSecondary"
                             android:textSize="18sp" />
 
                         <ProgressBar
+                            android:id="@+id/progressBarLevel"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
                             android:layout_height="10dp"
                             android:layout_marginTop="16dp"
-                            android:progress="70"
+                            android:progress="0"
                             android:progressTint="@color/colorGold"
                             android:progressBackgroundTint="@color/colorDivider" />
 
                         <TextView
+                            android:id="@+id/tvUserPoints"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="350 Points"
+                            android:text="0 Points"
                             android:textColor="?attr/colorPrimary"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -145,25 +149,25 @@
 
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Reflections" android:textColor="@color/colorTextSecondary" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="42" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                        <TextView android:id="@+id/tvTotalReflections" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="0" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
                     </RelativeLayout>
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorDivider" />
 
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Journal Entries" android:textColor="@color/colorTextSecondary" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="15" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                        <TextView android:id="@+id/tvTotalJournalEntries" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="0" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
                     </RelativeLayout>
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorDivider" />
 
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Longest Streak" android:textColor="@color/colorTextSecondary" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="12 Days" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                        <TextView android:id="@+id/tvLongestStreak" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="0 Days" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
                     </RelativeLayout>
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/colorDivider" />
 
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="8dp">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Habits Completed" android:textColor="@color/colorTextSecondary" />
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="85" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
+                        <TextView android:id="@+id/tvHabitsCompleted" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="0" android:textStyle="bold" android:textColor="?attr/colorPrimary" />
                     </RelativeLayout>
 
                 </LinearLayout>

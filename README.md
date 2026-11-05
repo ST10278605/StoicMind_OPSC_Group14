@@ -1,341 +1,224 @@
-Stoic Mind
+# Stoic Mind
 
-## Overview
+## Presentation link:
+## Github link: https://github.com/ST10278605/StoicMind_OPSC_Group14/ 
 
-**Stoic Mind** is an Android application that was created to help users with personal growth, self-reflection, motivation, and building better daily habits using ideas inspired by Stoic philosophy.
+## Purpose
 
-The app includes features such as daily quotes, motivational content, journaling, mood and reflection features, reminders, and settings that allow users to change certain preferences.
+**Stoic Mind** is an Android application designed to help users build emotional resilience, self-discipline, and healthier daily habits through Stoic-inspired reflection and personal growth tools. The app blends mindfulness, journaling, mood tracking, habit development, reminders, and motivational guidance into one experience that supports better routines and deeper self-awareness.
 
-The application was developed using **Android Studio and Kotlin**. We also used **Firebase Authentication** for user registration and login, **Firebase Firestore** for storing user data, and **Retrofit** to connect the app to a REST API.
+The purpose of the app is to make personal development practical and accessible. Instead of overwhelming the user with complicated tools, Stoic Mind encourages short, meaningful actions such as reflecting on the day, tracking mood, reviewing progress, and building calm, consistent habits aligned with Stoic principles.
 
-For Part 2, we took the ideas and features researched in Part 1 and worked on turning them into a working Android application. We also focused on testing the application, fixing errors, improving the API connection, checking Firebase, handling invalid inputs, and making sure the application works properly.
+## Design considerations
 
----
-Video link: https://advtechonline-my.sharepoint.com/:v:/g/personal/st10446802_rcconnect_edu_za/IQDnA8kxDbTDQJTi2aZ9x_tvAQB8I1kEhtTXWMyCYEz4AvE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=cydiSH
+The application was designed with the following principles in mind:
 
-GitHub link: https://github.com/ST10278605/StoicMind_OPSC_Group14.git
+- Simplicity and clarity: users should be able to move between core activities quickly through a dashboard and bottom navigation.
+- Daily reflection: the app promotes consistency through quick prompts that encourage users to pause, evaluate, and improve.
+- Personalization: users can set reminders, customize appearance, change language settings, and create their own habits.
+- Motivation and progress: achievement badges, wellness categories, and structured prompts help preserve engagement over time.
+- Accessibility: the interface uses clear labels, easy navigation, and straightforward actions to reduce friction for users.
+- Trust and security: user accounts are managed using Firebase Authentication, and cloud data is separated from local app state where appropriate.
+- Resilience: the app supports offline saving and sync status feedback so users are not blocked by temporary connectivity issues.
 
-## Technologies Used
+## App overview
 
-The following technologies and tools were used during the development of Stoic Mind:
+Stoic Mind includes the following major areas:
 
-* **Android Studio** – Used to develop the Android application.
-* **Kotlin** – Used for the application's functionality and logic.
-* **XML** – Used to design the user interface.
-* **Firebase Authentication** – Used for registration and login.
-* **Firebase Firestore** – Used to store and retrieve user data.
-* **Retrofit** – Used to connect the application to the REST API.
-* **REST API** – Used to retrieve quote information.
-* **GitHub** – Used for version control and collaboration.
-* **GitHub Actions** – Used for automated builds and testing.
-* **JUnit / Android Unit Testing** – Used to test parts of the application.
+- Registration and login
+- Dashboard with a daily Stoic quote
+- Daily reflection activities
+- Journal and mood tracking
+- Habit management
+- Explore section with Stoic-inspired learning categories
+- Reminders and notifications
+- Progress and achievements
+- Profile and customization settings
 
----
+## Technologies used
 
-## Main Features
+The app was developed using:
 
-### 1. Registration and Login
+- Android Studio
+- Kotlin
+- XML layouts
+- Firebase Authentication
+- Firebase Firestore
+- Room database
+- Retrofit for REST API access
+- GitHub for version control and collaboration
+- GitHub Actions for CI automation
+- JUnit and Android unit testing tools
 
-Users are able to register for an account and log into the application.
+## Main features
 
-Firebase Authentication is used to handle the registration and login process instead of storing passwords directly in the application's database.
+### 1. Authentication
 
-We checked the following:
+Users can create an account and sign in securely through Firebase Authentication. Registration includes validation for required details, valid email format, and minimum password length. This helps protect the user experience and prevents poor or incomplete account creation.
 
-* User registration
-* User login
-* Incorrect login details
-* Invalid registration information
-* Authentication errors
-* Password security
-* User access after logging in
+Screenshot: 
+<img width="738" height="1089" alt="image" src="https://github.com/user-attachments/assets/18e76f90-d298-4d72-b52e-a949044c2eef" />
 
----
 
 ### 2. Dashboard
 
-The Dashboard is the main screen of the application and gives users access to the main Stoic Mind features.
+The Dashboard acts as the primary home screen. It displays the current date, a greeting for the user, and a daily quote fetched via a REST API. If the quote API is unavailable, the app uses a default offline Stoic quote to maintain a positive user experience.
 
-The Dashboard includes the daily quote and other relevant content.
+Screenshot: <img width="738" height="1600" alt="1" src="https://github.com/user-attachments/assets/352a58a0-19fc-46ac-9a32-b50b3a080ab2" />
 
-During Part 2, we worked on fixing the connection between the Dashboard and the quote API so that quotes could be retrieved and displayed correctly.
+### 3. Daily reflection
 
-We also added error handling so that the application can respond properly if something goes wrong while retrieving the quote.
+Users can complete a brief daily reflection by entering a focus, what went well, and what they want to improve. This supports Stoic principles of self-examination and continuous improvement.
 
----
+Screenshot:<img width="738" height="1600" alt="3" src="https://github.com/user-attachments/assets/a8241dab-2f00-43ee-a6be-2935aff657ce" />
 
-### 3. REST API Integration
 
-The application uses a REST API to retrieve quote information.
+### 4. Journal and mood tracking
 
-**Retrofit** was used to handle the communication between the Android application and the API.
+Users can store personal thoughts in a journal and complete mood check-ins. Entries are saved locally and can be synced with the cloud for users who are signed in. Mood notes and journal content are linked to support deeper reflection over time.
 
-During development, the REST API integration was checked and fixed to make sure that:
+Screenshot:<img width="738" height="1600" alt="2" src="https://github.com/user-attachments/assets/d803be40-c36d-4a87-9757-79ef8cc49fb5" />
 
-* Requests are sent correctly.
-* API responses are received correctly.
-* Retrieved information is displayed in the application.
-* API errors are handled.
-* The application does not crash when the API is unavailable.
 
----
+### 5. Habit tracker
 
-### 4. API Error Handling
+The app includes a habit tracking feature with default habits such as reading, journaling, studying, exercising, and meditating. Users can also create their own habits, mark them complete, and keep their progress synchronized across local storage and cloud data.
 
-We added error handling to deal with situations where the application cannot retrieve information from the API.
+Screenshot:<img width="738" height="1600" alt="5" src="https://github.com/user-attachments/assets/3989629d-5eb9-4abb-a176-2f2dc1e20e4b" />
 
-This includes situations such as:
 
-* No internet connection
-* API server problems
-* Failed requests
-* Empty responses
-* Invalid responses
+### 6. Explore screen
 
-Instead of simply crashing, the application can provide feedback when an error occurs.
+The Explore section organizes Stoic-inspired learning topics such as resilience, self-discipline, gratitude, mindfulness, relationships, and leadership. This supports both general educational value and personal growth.
 
----
+Screenshot:<img width="738" height="1600" alt="6" src="https://github.com/user-attachments/assets/2721c7c9-c275-40fc-960e-8582fc6cbe5d" />
 
-### 5. Journal
 
-The Journal feature allows users to write down their thoughts and personal reflections.
+### 7. Reminders
 
-Users can create journal entries and view their previous entries.
+Users can set morning and evening reminder times to encourage daily self-reflection, personal review, and better routine building. The app also supports a test notification action for quick reminder validation.
 
-The journal functionality was checked to make sure that:
+Screenshot:<img width="738" height="1600" alt="7" src="https://github.com/user-attachments/assets/c8807050-8f67-4c5f-a5c1-e67479be789c" />
 
-* New journal entries can be created.
-* Entries are saved correctly.
-* Previous entries can be retrieved.
-* Journal history can be viewed.
-* User information is kept associated with the correct account.
 
----
+### 8. Profile and settings
 
-### 6. Settings / Change Settings
+Users can access settings for personal details, language preferences, appearance themes, notifications, and privacy-related links. This improves usability and makes the app more personal and adaptable.
 
-A Settings section was included to allow users to manage the available application preferences.
+Screenshot:<img width="738" height="1600" alt="8" src="https://github.com/user-attachments/assets/84c0112c-30e3-48c8-a65b-833bbda1f70f" />
 
-This is linked to the customization requirements identified during Part 1. The settings allow users to change relevant preferences within the application.
 
-The Settings functionality was checked to make sure that changes made by the user are handled correctly.
+### 9. Progress and achievements
 
----
+The achievements section tracks user progress using badge-style cards. This adds a gamified motivation element to encourage sustained usage of the app and to reward continued engagement.
 
-### 7. Part 1 Features
+Screenshot:<img width="738" height="1600" alt="9" src="https://github.com/user-attachments/assets/248c7a3d-0a76-45ce-b634-7e7ffe526e98" />
 
-The features researched and proposed during Part 1 were used as a guide when developing the application.
 
-The relevant features include:
+## Firebase and cloud data
 
-* Simple and accessible user interface
-* Daily Stoic inspiration
-* Motivational and philosophical content
-* Customizable content
-* Journaling
-* Mood and reflection functionality
-* Habit and routine support
-* Categorized content
-* Reminders and notifications
-* Quote and reflection features
-* Daily inspirational content
+Firebase was used to provide authentication and cloud persistence for account and user-related data. Firestore stores user information and allows the app to synchronize some settings, reminder configuration, and journal-related data when connectivity is available.
 
-The implemented features were checked during Part 2 to make sure they worked as expected.
+This approach supports both real-time user data access and a backup mechanism for when the app is used offline. The app is designed to save data locally first and then sync when possible.
 
----
+## GitHub and GitHub Actions
 
-## Firebase
+GitHub was used throughout the project as the central repository for source control, documentation, collaboration, and version tracking. Commits and pushes helped the team store and review progress across the development lifecycle.
 
-### Firebase Authentication
+GitHub Actions was added to automate validation during development. The workflow builds the Android project and runs unit tests whenever the project is pushed or a pull request is created. This provides faster feedback and helps identify issues early before deployment or submission.
 
-Firebase Authentication is used to manage user registration and login.
+The GitHub Actions workflow file is located here:
 
-We checked the authentication process to make sure that users can:
+- .github/workflows/android.yml
 
-* Create an account.
-* Log into their account.
-* Receive feedback when incorrect details are entered.
-* Access the application after successfully logging in.
+The workflow performs the following:
 
-### Firebase Firestore
+- checks out the project
+- sets up JDK 17
+- sets up Gradle
+- runs unit tests with `./gradlew testDebugUnitTest`
+- builds the debug APK with `./gradlew assembleDebug`
 
-Firebase Firestore is used as the cloud database for the application.
+## Release notes for Part 3 final POE
 
-It is used to store relevant user information, including data needed for the Journal feature.
+The following release notes describe the updates made to Stoic Mind since the prototype stage and explain which features are considered innovative additions to this final version.
 
-The Firestore connection was checked to make sure that information can be saved and retrieved correctly.
+### Version 3.0 — Final POE Release
 
----
+#### Summary
 
-## Password Security
+This final version expands the prototype into a more complete Stoic self-improvement app. It improves core daily workflows, adds stronger user personalization, enhances synchronization, and strengthens the app's educational and motivational value.
 
-Password security was also checked during development.
+#### Major updates
 
-Passwords are handled through **Firebase Authentication** rather than being stored directly in the application's Firestore database.
+- Added a complete daily reflection experience with guided prompts for focus, wins, and improvement areas.
+- Added mood tracking with optional notes so users can connect emotional state to reflection and personal growth.
+- Added local persistence for journal entries and mood data using Room, with sync status indicators for offline/online states.
+- Added manual sync controls and sync-state banners so users understand whether their data is saved locally or stored in the cloud.
+- Expanded the habit tracker with default activities, custom habit creation, completion tracking, and persistence across sessions.
+- Added reminder functionality for morning and evening reflection routines with customizable times.
+- Added a richer Explore section with structured Stoic topics to support learning and self-improvement.
+- Added progress and achievement badges for motivation and user engagement.
+- Improved profile settings with theme selection, language options, notification access, and logout support.
+- Improved the dashboard by integrating a quote API using Retrofit and providing an offline backup quote when needed.
+- Improved the app’s reliability through validation, error handling, and automated CI testing.
 
-This helps prevent user passwords from being stored as normal application data.
+#### Innovative features added in this version
 
-The registration process also checks that the required information is provided before an account can be created.
+The following features are considered the most innovative additions in this final version:
 
----
+- Innovative Feature 1: Guided Daily Reflection System
+  - This feature turns Stoic self-examination into a structured daily routine by asking the user to identify focus, wins, and growth areas.
+  - It promotes consistency and reflection rather than passive content consumption.
 
-## Invalid Input Handling
+- Innovative Feature 2: Mood Check-In Integrated with Journal Entries
+  - Users can log emotional state and optionally add a note; the system also stores this as part of the journaling flow.
+  - This provides a stronger bridge between emotional awareness and personal development.
 
-We checked how the application responds when users enter incorrect or incomplete information.
+- Innovative Feature 3: Offline-First Sync Model
+  - The app saves entries locally first and shows whether they are synced, syncing, or offline.
+  - This makes the app resilient and more reliable when internet access is weak or unavailable.
 
-Examples include:
+- Innovative Feature 4: Personalized Habit System
+  - Users can add custom habits and track completion over time, creating a habit-building journey tailored to their daily life.
+  - This makes the app more than a quote generator; it becomes a practical habit companion.
 
-* Empty fields
-* Invalid email addresses
-* Incorrect login details
-* Invalid registration information
-* Missing journal information
-* API errors
+- Innovative Feature 5: Stoic Learning Exploration
+  - Users can navigate categories of Stoic concepts and explore themes such as resilience, leadership, gratitude, and mindfulness.
+  - This adds educational depth and long-term value.
 
-The purpose of this was to make sure that invalid information does not cause unexpected behaviour or crash the application.
+#### Improvements since prototype
 
----
+- The prototype had basic concept features and a foundation for the app. The final version improved the product by adding real workflow integration, practical personalization, and more complete data handling.
+- The app now feels like a usable self-improvement application rather than a demo-only concept.
+- More user value was added through observable progress, reminder support, and handling of app state in offline conditions.
 
-## Unit Testing
+## Unit testing and validation
 
-Automated unit tests were added as part of Part 2.
+Automated unit tests were added to help ensure that the application remained stable as features were developed. The project also includes Android testing support and can be checked using Gradle test tasks.
 
-The tests were used to check important parts of the application and help identify problems during development.
-
-This also makes it easier to check whether changes made to the application have affected existing functionality.
-
----
-
-## GitHub Actions
-
-A **GitHub Actions workflow** was added to the project.
-
-The workflow helps automate parts of the testing and development process when changes are pushed to the GitHub repository.
-
-This provides an additional way of checking for build or testing problems during development.
-
----
-
-## Retrofit Dependencies
-
-The Retrofit dependencies required for the REST API connection were checked and confirmed.
-
-Retrofit is responsible for communicating with the external API and receiving the information returned by it.
-
-The required dependencies and converter were also checked to make sure that API responses can be converted into objects that can be used by the Kotlin code.
-
----
-
-## GitHub and Version Control
-
-GitHub was used throughout the development of the project to keep track of changes and work done on the application.
-
-Commits and pushes were made during development to keep the project updated on the repository.
-
-GitHub helped us to:
-
-* Keep track of development changes.
-* Save different versions of the project.
-* Work as a team.
-* Keep a history of our work.
-* Back up the project remotely.
-
----
-
-## Comments, References and Logging
-
-Comments were added to parts of the code where they were useful for explaining what the code was doing.
-
-References were also included where external resources or technologies were used.
-
-Logging and debugging were used during development to help identify problems with areas such as:
-
-* REST API communication
-* Firebase Authentication
-* Firestore
-* Database operations
-* Application errors
-
-This helped us find and fix issues while developing the application.
-
----
-
-## Demo Video
-
-A demo video with a voice-over was created to demonstrate the Stoic Mind application.
-
-The video shows the main features of the application and explains how the different parts of the app work.
-
-It also demonstrates the application running as an Android application.
-
----
-
-## AI Use Statement
-
-AI tools were used during the development of the Stoic Mind application as a supporting resource.
-
-AI was used to help with things such as:
-
-* Understanding Kotlin and Android Studio concepts.
-* Troubleshooting errors.
-* Understanding API and Firebase implementation.
-* Finding possible solutions to development problems.
-* Improving documentation and explanations.
-* Reviewing parts of the implementation.
-
-The suggestions provided by AI were reviewed and tested before being used. The development team remained responsible for implementing, testing, and checking the final application.
-
----
-
-## Project Structure
-
-The project follows the normal structure of an Android Studio application.
-
-It contains Kotlin files, XML layouts, resources, configuration files, and testing components.
-
-The main areas of the application include:
-
-* Authentication
-* Dashboard
-* Journal
-* Settings
-* REST API communication
-* Firebase
-* User interface
-* Unit testing
-
----
-
-## Installation and Setup
+## Installation and setup
 
 ### Requirements
 
-To run the Stoic Mind application, you will need:
+- Android Studio
+- Android SDK
+- Kotlin support
+- An Android emulator or Android device
+- Internet access for Firebase and the quote API
 
-* Android Studio
-* Android SDK
-* Kotlin support
-* An Android emulator or Android device
-* Internet connection for Firebase and API functionality
+### Steps to run
 
-### Running the Application
-
-1. Clone the project from GitHub.
+1. Clone the repository from GitHub.
 2. Open the project in Android Studio.
-3. Allow Android Studio to sync the Gradle files.
-4. Make sure the Firebase configuration is correctly included.
-5. Connect an Android emulator or physical Android device.
-6. Build the project.
-7. Run the application.
-
----
+3. Allow Gradle to sync the project.
+4. Ensure Firebase configuration is set up correctly.
+5. Run the app on an Android emulator or physical device.
 
 ## Conclusion
 
-Stoic Mind was developed to bring together Stoic philosophy, motivation, self-reflection, and journaling in one Android application.
+Stoic Mind was created to help users incorporate Stoic values into daily life through reflection, mood awareness, habits, and personal growth routines. The final Part 3 version improves on the prototype by delivering a more complete, personalized, and resilient Android experience. This update includes new features such as daily reflection, mood journaling, offline-first data handling, reminder workflows, learning categories, and achievement tracking, making the app significantly more robust and user-focused.
 
-In Part 2, we focused on taking the ideas from our Part 1 research and turning them into a working application. We worked on areas such as the REST API, Dashboard quote connection, Firebase Authentication, Firestore, settings, journal history, input validation, password security, and error handling.
+## AI use statement
 
-We also added automated unit tests and a GitHub Actions workflow to help with testing and development. GitHub was used throughout the project to keep track of our work and changes.
-
-Overall, Part 2 allowed us to take the concepts we researched in Part 1 and apply them practically by developing, testing, debugging, and improving the Stoic Mind Android application. 
+AI tools were used to support the project by helping with Android/Kotlin understanding, error-solving, code review, and documentation support. The suggestions provided were evaluated by the project team and adapted where appropriate to ensure that the final implementation remained correct, consistent, and aligned with project goals.

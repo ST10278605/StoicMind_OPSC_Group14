@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">StoicMind</string>
+    <string name="welcome_message">Re oa ho amohala ho StoicMind</string>
+    <string name="select_language">Kgetha puo</string>
+
+    <!-- Navigation & Bottom Nav -->
+    <string name="nav_home">Gae</string>
+    <string name="nav_explore">Bafuputsa</string>
+    <string name="nav_journal">Puku ya mehopolo</string>
+    <string name="nav_community">Sechaba</string>
+    <string name="nav_profile">Profayili</string>
+
+    <!-- Settings & Profile -->
+    <string name="settings">Dithulaganyo</string>
+    <string name="profile_and_settings">Profayili le Dithulaganyo</string>
+    <string name="personal_information">Tsebo ya Motho</string>
+    <string name="notifications">Ditsebiso</string>
+    <string name="appearance">Ponahalo</string>
+    <string name="change_language">Chesa Puo</string>
+    <string name="privacy_policy">Pholisi ya Sephiri</string>
+    <string name="logout">Tswa</string>
+    <string name="stoic_practitioner">Moeti wa Stoic</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard">Lebato</string>
+    <string name="welcome_back">O Amohetswe Hape</string>
+    <string name="greeting_user">Dumela, %1$s</string>
+    <string name="greeting_default">Dumela, Stoic</string>
+    <string name="reflect_now">Nyakisisa Jwale</string>
+    <string name="daily_reflection">Nyakisiso ya Letsatsi</string>
+    <string name="journal">Puku</string>
+    <string name="mood">Maikutlo</string>
+    <string name="mood_check_in">Tlhahlobo ya Maikutlo</string>
+    <string name="habits">Mekgwa</string>
+    <string name="explore">Bafuputsa</string>
+    <string name="achievements">Diphinlello</string>
+    <string name="reminders">Dikgopotso</string>
+
+    <!-- Personal Information Screen -->
+    <string name="identity">Boitsebiso</string>
+    <string name="full_name">Lebitso ka Botlalo</string>
+    <string name="email_address">Aterese ya Imeile</string>
+    <string name="your_stoic_journey">Leeto la Hao la Stoic</string>
+    <string name="rank">Boemo</string>
+    <string name="joined">O Kene</string>
+    <string name="primary_virtue_focus">Mamello e kgolo</string>
+    <string name="select_virtue_hint">Kgetha seriti seo o se sebedisang haholo jwale.</string>
+    <string name="save_all_changes">Boloka Diphetolo Tsohle</string>
+    <string name="account_actions">Liketso tsa Akhaonto</string>
+    <string name="request_password_reset">Kopa Phetoho ya Khupamarama</string>
+    <string name="delete_journey">Hlakola Leeto (Kwala Akhaonto)</string>
+
+    <!-- Appearance Dialog -->
+    <string name="choose_theme_color">Kgetha Mbala wa Sehlooho</string>
+    <string name="theme_classic">Stoic ya Kgale (Leje/Gauta)</string>
+    <string name="theme_serene">Bohlale bo Thudileng (Teal/Kgotso)</string>
+    <string name="theme_courage">Sebindi sa Stoic (Krimsone/Bofubelu)</string>
+    <string name="theme_nature">Amor Fati (Hlaha e Talana/Sage)</string>
+    <string name="cancel">Khansela</string>
+    <string name="apply">Sebedisa</string>
+
+    <!-- Authentication -->
+    <string name="email">Imeile</string>
+    <string name="password">Khupamarama</string>
+    <string name="login">Kena</string>
+    <string name="register">Etsa Akhaonto</string>
+    <string name="forgot_password">O Lebetse Khupamarama?</string>
+    <string name="continue_with_google">Tswela pele ka Google</string>
+    <string name="dont_have_account">Ha o na akhaonto? Ngolisa</string>
+    <string name="already_have_account">O se o na le akhaonto? Kena</string>
+</resources>
