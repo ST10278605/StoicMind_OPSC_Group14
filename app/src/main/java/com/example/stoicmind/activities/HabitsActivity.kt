@@ -48,6 +48,11 @@ class HabitsActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadHabits()
+    }
+
     private fun getUserId(): String {
         return firebaseManager.getCurrentUserId() ?: "guest_user"
     }
@@ -77,16 +82,6 @@ class HabitsActivity : BaseActivity() {
         val habitsJson = prefs.getString("stoic_mind_habits_$userId", null)
 
         if (habitsJson.isNullOrBlank()) {
-            syncHabitsFromFirestore(userId) { remoteHabits ->
-                if (!remoteHabits.isNullOrEmpty()) {
-                    habitsList = remoteHabits.toMutableList()
-                } else {
-                    habitsList = getDefaultHabits(userId).toMutableList()
-                }
-                saveHabitsLocally(userId, habitsList)
-                saveHabitsToFirestore(userId, habitsList)
-                habitsAdapter.updateHabits(habitsList)
-            }
             habitsList = getDefaultHabits(userId).toMutableList()
             saveHabitsLocally(userId, habitsList)
             saveHabitsToFirestore(userId, habitsList)
@@ -98,8 +93,6 @@ class HabitsActivity : BaseActivity() {
             } catch (_: Exception) {
                 habitsList = getDefaultHabits(userId).toMutableList()
             }
-            habitsAdapter.updateHabits(habitsList)
-        }
         }
 
         habitsAdapter.updateHabits(habitsList)
@@ -148,63 +141,33 @@ class HabitsActivity : BaseActivity() {
         }
     }
 
-    private fun syncHabitsFromFirestore(userId: String, onComplete: (List<Habit>?) -> Unit) {
-        if (userId == "guest_user") {
-            onComplete(null)
-            return
-        }
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-
-            val status = if (isChecked) "completed!" else "uncompleted."
-            Toast.makeText(this, "${updated.name} marked as $status", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun saveHabitsLocally(userId: String, habits: List<Habit>) {
-        val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
-        val json = gson.toJson(habits)
-        prefs.edit().putString("stoic_mind_habits_$userId", json).apply()
-    }
-
-    private fun saveHabitsToFirestore(userId: String, habits: List<Habit>) {
-        if (userId == "guest_user") return
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val data = mapOf("habitsList" to habits)
-                db.collection("users").document(userId).set(data, SetOptions.merge()).await()
-            } catch (_: Exception) {
-                // Silently fallback to local SharedPreferences
-            }
-        }
-    }
-
     private fun syncHabitsFromFirestore(userId: String) {
         if (userId == "guest_user") return
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 val doc = db.collection("users").document(userId).get().await()
                 if (doc.exists() && doc.contains("habitsList")) {
-                    val listType = object : TypeToken<List<Habit>>() {}.type
-                    val json = gson.toJson(doc.get("habitsList"))
-                    val remoteHabits: List<Habit>? = gson.fromJson(json, listType)
-                    launch(Dispatchers.Main) {
-                        onComplete(remoteHabits)
-                    }
-                } else {
-                    launch(Dispatchers.Main) {
-                        onComplete(null)
-                    }
-                }
-            } catch (_: Exception) {
-                launch(Dispatchers.Main) {
-                    onComplete(null)
-                }
-                    if (!remoteHabits.isNullOrEmpty()) {
-                        saveHabitsLocally(userId, remoteHabits)
-                        launch(Dispatchers.Main) {
-                            habitsList = remoteHabits.toMutableList()
-                            habitsAdapter.updateHabits(habitsList)
+                    val rawList = doc.get("habitsList") as? List<*>
+                    if (rawList != null) {
+                        val remoteHabits = rawList.mapNotNull { item ->
+                            if (item is Map<*, *>) {
+                                val jsonStr = gson.toJson(item)
+                                val jsonObject = com.google.gson.JsonParser.parseString(jsonStr).asJsonObject
+                                if (jsonObject.has("completed") && !jsonObject.has("isCompleted")) {
+                                    jsonObject.add("isCompleted", jsonObject.get("completed"))
+                                }
+                                if (jsonObject.has("active") && !jsonObject.has("isActive")) {
+                                    jsonObject.add("isActive", jsonObject.get("active"))
+                                }
+                                gson.fromJson(jsonObject, Habit::class.java)
+                            } else null
+                        }
+                        if (remoteHabits.isNotEmpty()) {
+                            saveHabitsLocally(userId, remoteHabits)
+                            launch(Dispatchers.Main) {
+                                habitsList = remoteHabits.toMutableList()
+                                habitsAdapter.updateHabits(habitsList)
+                            }
                         }
                     }
                 }
