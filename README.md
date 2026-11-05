@@ -60,33 +60,56 @@ Users can create an account and sign in securely through Firebase Authentication
 
 The Dashboard acts as the primary home screen. It displays the current date, a greeting for the user, and a daily quote fetched via a REST API. If the quote API is unavailable, the app uses a default offline Stoic quote to maintain a positive user experience.
 
+Screenshot: <img width="738" height="1600" alt="1" src="https://github.com/user-attachments/assets/352a58a0-19fc-46ac-9a32-b50b3a080ab2" />
+
 ### 3. Daily reflection
 
 Users can complete a brief daily reflection by entering a focus, what went well, and what they want to improve. This supports Stoic principles of self-examination and continuous improvement.
+
+Screenshot:<img width="738" height="1600" alt="3" src="https://github.com/user-attachments/assets/a8241dab-2f00-43ee-a6be-2935aff657ce" />
+
 
 ### 4. Journal and mood tracking
 
 Users can store personal thoughts in a journal and complete mood check-ins. Entries are saved locally and can be synced with the cloud for users who are signed in. Mood notes and journal content are linked to support deeper reflection over time.
 
+Screenshot:<img width="738" height="1600" alt="2" src="https://github.com/user-attachments/assets/d803be40-c36d-4a87-9757-79ef8cc49fb5" />
+
+
 ### 5. Habit tracker
 
 The app includes a habit tracking feature with default habits such as reading, journaling, studying, exercising, and meditating. Users can also create their own habits, mark them complete, and keep their progress synchronized across local storage and cloud data.
+
+Screenshot:<img width="738" height="1600" alt="5" src="https://github.com/user-attachments/assets/3989629d-5eb9-4abb-a176-2f2dc1e20e4b" />
+
 
 ### 6. Explore screen
 
 The Explore section organizes Stoic-inspired learning topics such as resilience, self-discipline, gratitude, mindfulness, relationships, and leadership. This supports both general educational value and personal growth.
 
+Screenshot:<img width="738" height="1600" alt="6" src="https://github.com/user-attachments/assets/2721c7c9-c275-40fc-960e-8582fc6cbe5d" />
+
+
 ### 7. Reminders
 
 Users can set morning and evening reminder times to encourage daily self-reflection, personal review, and better routine building. The app also supports a test notification action for quick reminder validation.
+
+Screenshot:<img width="738" height="1600" alt="7" src="https://github.com/user-attachments/assets/c8807050-8f67-4c5f-a5c1-e67479be789c" />
+
 
 ### 8. Profile and settings
 
 Users can access settings for personal details, language preferences, appearance themes, notifications, and privacy-related links. This improves usability and makes the app more personal and adaptable.
 
+Screenshot:<img width="738" height="1600" alt="8" src="https://github.com/user-attachments/assets/84c0112c-30e3-48c8-a65b-833bbda1f70f" />
+
+
 ### 9. Progress and achievements
 
 The achievements section tracks user progress using badge-style cards. This adds a gamified motivation element to encourage sustained usage of the app and to reward continued engagement.
+
+Screenshot:<img width="738" height="1600" alt="9" src="https://github.com/user-attachments/assets/248c7a3d-0a76-45ce-b634-7e7ffe526e98" />
+
 
 ## Firebase and cloud data
 
