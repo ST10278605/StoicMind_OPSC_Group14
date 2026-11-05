@@ -87,6 +87,9 @@ class HabitsActivity : BaseActivity() {
                 saveHabitsToFirestore(userId, habitsList)
                 habitsAdapter.updateHabits(habitsList)
             }
+            habitsList = getDefaultHabits(userId).toMutableList()
+            saveHabitsLocally(userId, habitsList)
+            saveHabitsToFirestore(userId, habitsList)
         } else {
             try {
                 val listType = object : TypeToken<List<Habit>>() {}.type
@@ -97,6 +100,10 @@ class HabitsActivity : BaseActivity() {
             }
             habitsAdapter.updateHabits(habitsList)
         }
+        }
+
+        habitsAdapter.updateHabits(habitsList)
+        syncHabitsFromFirestore(userId)
     }
 
     private fun getDefaultHabits(userId: String): List<Habit> {
@@ -148,6 +155,34 @@ class HabitsActivity : BaseActivity() {
         }
         lifecycleScope.launch(Dispatchers.IO) {
             try {
+
+            val status = if (isChecked) "completed!" else "uncompleted."
+            Toast.makeText(this, "${updated.name} marked as $status", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun saveHabitsLocally(userId: String, habits: List<Habit>) {
+        val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
+        val json = gson.toJson(habits)
+        prefs.edit().putString("stoic_mind_habits_$userId", json).apply()
+    }
+
+    private fun saveHabitsToFirestore(userId: String, habits: List<Habit>) {
+        if (userId == "guest_user") return
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val data = mapOf("habitsList" to habits)
+                db.collection("users").document(userId).set(data, SetOptions.merge()).await()
+            } catch (_: Exception) {
+                // Silently fallback to local SharedPreferences
+            }
+        }
+    }
+
+    private fun syncHabitsFromFirestore(userId: String) {
+        if (userId == "guest_user") return
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
                 val doc = db.collection("users").document(userId).get().await()
                 if (doc.exists() && doc.contains("habitsList")) {
                     val listType = object : TypeToken<List<Habit>>() {}.type
@@ -165,6 +200,16 @@ class HabitsActivity : BaseActivity() {
                 launch(Dispatchers.Main) {
                     onComplete(null)
                 }
+                    if (!remoteHabits.isNullOrEmpty()) {
+                        saveHabitsLocally(userId, remoteHabits)
+                        launch(Dispatchers.Main) {
+                            habitsList = remoteHabits.toMutableList()
+                            habitsAdapter.updateHabits(habitsList)
+                        }
+                    }
+                }
+            } catch (_: Exception) {
+                // Ignore sync failures, local storage used
             }
         }
     }
