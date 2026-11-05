@@ -11,45 +11,14 @@
         android:id="@+id/toolbarInclude"
         layout="@layout/layout_toolbar" />
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHabits"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Habit 1 -->
-            <include
-                android:id="@+id/habit1"
-                layout="@layout/item_habit" />
-
-            <!-- Habit 2 -->
-            <include
-                android:id="@+id/habit2"
-                layout="@layout/item_habit" />
-
-            <!-- Habit 3 -->
-            <include
-                android:id="@+id/habit3"
-                layout="@layout/item_habit" />
-
-            <!-- Habit 4 -->
-            <include
-                android:id="@+id/habit4"
-                layout="@layout/item_habit" />
-
-            <!-- Habit 5 -->
-            <include
-                android:id="@+id/habit5"
-                layout="@layout/item_habit" />
-
-        </LinearLayout>
-    </ScrollView>
+        android:padding="8dp"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_habit" />
 
     <Button
         android:id="@+id/btnAddNewHabit"
