@@ -119,8 +119,8 @@ Screenshot:<img width="738" height="1600" alt="9" src="https://github.com/user-a
 
 I also attempted to publish Stoic Mind on the Google Play Store. Unfortunately, creating a Google Play developer account required a paid registration, and I was not able to cover the cost at the time, so I was unable to complete the app publication.
 
-![Google Play publishing attempt](assets/google-play-publishing-attempt.svg)
-
+Screenshot:
+<img width="1652" height="637" alt="image" src="https://github.com/user-attachments/assets/8419fe6b-1890-4629-889a-631814ba6641" />
 
 ## Firebase and cloud data
 
