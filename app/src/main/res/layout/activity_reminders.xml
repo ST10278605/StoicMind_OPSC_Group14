@@ -55,7 +55,7 @@
                     android:id="@+id/switchMorning"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:checked="false" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -83,7 +83,7 @@
                     android:id="@+id/switchEvening"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:checked="false" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

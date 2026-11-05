@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">StoicMind</string>
+    <string name="welcome_message">Welkom by StoicMind</string>
+    <string name="select_language">Kies \'n taal</string>
+
+    <!-- Navigation & Bottom Nav -->
+    <string name="nav_home">Tuis</string>
+    <string name="nav_explore">Verken</string>
+    <string name="nav_journal">Joernaal</string>
+    <string name="nav_community">Gemeenskap</string>
+    <string name="nav_profile">Profiel</string>
+
+    <!-- Settings & Profile -->
+    <string name="settings">Instellings</string>
+    <string name="profile_and_settings">Profiel &amp; Instellings</string>
+    <string name="personal_information">Persoonlike Inligting</string>
+    <string name="notifications">Kennisgewings</string>
+    <string name="appearance">Voorkoms</string>
+    <string name="change_language">Verander Taal</string>
+    <string name="privacy_policy">Privaatheidsbeleid</string>
+    <string name="logout">Teken Uit</string>
+    <string name="stoic_practitioner">Stoïsynse Praktisyn</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard">Paneel</string>
+    <string name="welcome_back">Welkom Terug</string>
+    <string name="greeting_user">Goeiemôre, %1$s</string>
+    <string name="greeting_default">Goeiemôre, Stoïsyn</string>
+    <string name="reflect_now">Reflekteer Nou</string>
+    <string name="daily_reflection">Daaglikse Refleksie</string>
+    <string name="journal">Joernaal</string>
+    <string name="mood">Gemoedstoestand</string>
+    <string name="mood_check_in">Gemoeds-Kontrole</string>
+    <string name="habits">Gewoontes</string>
+    <string name="explore">Verken</string>
+    <string name="achievements">Prestasies</string>
+    <string name="reminders">Herinneringe</string>
+
+    <!-- Personal Information Screen -->
+    <string name="identity">Identiteit</string>
+    <string name="full_name">Volle Naam</string>
+    <string name="email_address">E-posadres</string>
+    <string name="your_stoic_journey">Jou Stoïsynse Reis</string>
+    <string name="rank">Rang</string>
+    <string name="joined">Aangesluit</string>
+    <string name="primary_virtue_focus">Primêre Deugdefokus</string>
+    <string name="select_virtue_hint">Kies die deug wat jy tans die meeste beoefen.</string>
+    <string name="save_all_changes">Stoor Alle Veranderinge</string>
+    <string name="account_actions">Rekeningaksies</string>
+    <string name="request_password_reset">Versoek Wagwoord Herstel</string>
+    <string name="delete_journey">Vee Reis Uit (Sluit Rekening)</string>
+
+    <!-- Appearance Dialog -->
+    <string name="choose_theme_color">Kies Temakleur</string>
+    <string name="theme_classic">Klassieke Stoïsyn (Lei/Goud)</string>
+    <string name="theme_serene">Kalm Wysheid (Teal/Rustig)</string>
+    <string name="theme_courage">Stoïsynse Moed (Karmosyn/Burgondies)</string>
+    <string name="theme_nature">Amor Fati (Bosgroen/Salie)</string>
+    <string name="cancel">Kanselleer</string>
+    <string name="apply">Pas Toe</string>
+
+    <!-- Authentication -->
+    <string name="email">E-pos</string>
+    <string name="password">Wagwoord</string>
+    <string name="login">Teken In</string>
+    <string name="register">Skep Rekening</string>
+    <string name="forgot_password">Wagwoord Vergeet?</string>
+    <string name="continue_with_google">Gaan voort met Google</string>
+    <string name="dont_have_account">Het jy nie \'n rekening nie? Teken In</string>
+    <string name="already_have_account">Het jy reeds \'n rekening? Teken In</string>
+</resources>
