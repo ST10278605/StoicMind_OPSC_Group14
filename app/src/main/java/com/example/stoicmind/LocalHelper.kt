@@ -1,53 +1,33 @@
 package com.example.stoicmind
 
-import android.content.Context
-import android.content.res.Configuration
-import android.os.Build
-import java.util.Locale
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 
 object LocaleHelper {
-    private const val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
 
-    // Updates context smoothly for attachBaseContext
-    fun onAttach(context: Context): Context {
-        val lang = getPersistedData(context, Locale.getDefault().language)
-        return setLocale(context, lang)
-    }
+    fun getLanguage(): String {
+        val locales = AppCompatDelegate.getApplicationLocales()
 
-    fun getLanguage(context: Context): String {
-        return getPersistedData(context, Locale.getDefault().language)
-    }
-
-    // Persists configuration adjustments and wraps context for configuration updates
-    fun setLocale(context: Context, language: String): Context {
-        persist(context, language)
-
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-
-        val resources = context.resources
-        val config = Configuration(resources.configuration)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            config.setLocale(locale)
+        return if (!locales.isEmpty) {
+            locales[0]?.language ?: "en"
         } else {
-            @Suppress("DEPRECATION")
-            config.locale = locale
+            "en"
         }
-
-        @Suppress("DEPRECATION")
-        resources.updateConfiguration(config, resources.displayMetrics)
-
-        return context.createConfigurationContext(config)
     }
 
-    private fun getPersistedData(context: Context, defaultLanguage: String): String {
-        val preferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        return preferences.getString(SELECTED_LANGUAGE, defaultLanguage) ?: defaultLanguage
-    }
+    fun setLocale(language: String) {
+        Log.d("LANGUAGE_TEST", "Selected language: $language")
 
-    private fun persist(context: Context, language: String) {
-        val preferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        preferences.edit().putString(SELECTED_LANGUAGE, language).apply()
+        val localeList = LocaleListCompat.forLanguageTags(language)
+
+        AppCompatDelegate.setApplicationLocales(localeList)
+
+        Log.d(
+            "LANGUAGE_TEST",
+            "Saved application locale: ${
+                AppCompatDelegate.getApplicationLocales().toLanguageTags()
+            }"
+        )
     }
 }
