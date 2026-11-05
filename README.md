@@ -1,5 +1,8 @@
 # Stoic Mind
 
+## Presentation link:
+## Github link: https://github.com/ST10278605/StoicMind_OPSC_Group14/ 
+
 ## Purpose
 
 **Stoic Mind** is an Android application designed to help users build emotional resilience, self-discipline, and healthier daily habits through Stoic-inspired reflection and personal growth tools. The app blends mindfulness, journaling, mood tracking, habit development, reminders, and motivational guidance into one experience that supports better routines and deeper self-awareness.
