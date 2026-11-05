@@ -31,7 +31,7 @@
                         android:id="@+id/tvGreeting"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Good Morning, User"
+                        android:text="@string/greeting_default"
                         android:textColor="?attr/colorOnPrimary"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -92,7 +92,7 @@
                         android:id="@+id/btnReflectNow"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:text="Reflect Now"
+                        android:text="@string/reflect_now"
                         android:backgroundTint="?attr/colorSecondary"
                         android:layout_gravity="center"
                         android:layout_marginTop="12dp"
@@ -130,12 +130,12 @@
                             android:layout_height="40dp"
                             android:src="@drawable/ic_journal"
                             app:tint="?attr/colorPrimary"
-                            android:contentDescription="Journal" />
+                            android:contentDescription="@string/journal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Journal"
+                            android:text="@string/journal"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="?attr/colorPrimary"
@@ -166,12 +166,12 @@
                             android:layout_height="40dp"
                             android:src="@drawable/ic_mood"
                             app:tint="?attr/colorPrimary"
-                            android:contentDescription="Mood" />
+                            android:contentDescription="@string/mood" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mood"
+                            android:text="@string/mood"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="?attr/colorPrimary"
@@ -202,12 +202,12 @@
                             android:layout_height="40dp"
                             android:src="@drawable/ic_habits"
                             app:tint="?attr/colorPrimary"
-                            android:contentDescription="Habits" />
+                            android:contentDescription="@string/habits" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Habits"
+                            android:text="@string/habits"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="?attr/colorPrimary"
@@ -238,12 +238,12 @@
                             android:layout_height="40dp"
                             android:src="@drawable/ic_explore"
                             app:tint="?attr/colorPrimary"
-                            android:contentDescription="Explore" />
+                            android:contentDescription="@string/explore" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Explore"
+                            android:text="@string/explore"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="?attr/colorPrimary"
@@ -274,12 +274,12 @@
                             android:layout_height="40dp"
                             android:src="@drawable/ic_launcher_background"
                             app:tint="?attr/colorPrimary"
-                            android:contentDescription="Achievements" />
+                            android:contentDescription="@string/achievements" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Achievements"
+                            android:text="@string/achievements"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="?attr/colorPrimary"
@@ -310,12 +310,12 @@
                             android:layout_height="40dp"
                             android:src="@drawable/ic_notification"
                             app:tint="?attr/colorPrimary"
-                            android:contentDescription="Reminders" />
+                            android:contentDescription="@string/reminders" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Reminders"
+                            android:text="@string/reminders"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="?attr/colorPrimary"

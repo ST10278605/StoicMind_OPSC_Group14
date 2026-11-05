@@ -3,6 +3,7 @@ package com.example.stoicmind.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,6 +22,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity() {
 
+    private lateinit var languageSpinner: Spinner
+    private var isInitialDisplay = true
     private lateinit var binding: ActivityProfileBinding
 
     @Inject
@@ -41,6 +44,54 @@ class ProfileActivity : BaseActivity() {
 
         setupToolbar()
         setupClickListeners()
+        setupLanguageSpinner()
+    }
+
+    private fun setupLanguageSpinner() {
+        languageSpinner = binding.languageSpinner
+
+        val languages = arrayOf("English", "Zulu", "Setswana", "Sepedi")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = adapter
+
+        // Set spinner selection using our localized utility state tracker
+        val currentLang = LocaleHelper.getLanguage(this)
+        val initialSelection = when (currentLang) {
+            "zu", "zulu" -> 1
+            "tn", "tswana" -> 2
+            "nso", "pedi" -> 3
+            else -> 0
+        }
+        languageSpinner.setSelection(initialSelection)
+
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isInitialDisplay) {
+                    isInitialDisplay = false
+                    return
+                }
+
+                val selectedLangCode = when (position) {
+                    1 -> "zu"
+                    2 -> "tn"
+                    3 -> "nso"
+                    else -> "en"
+                }
+
+                if (selectedLangCode != currentLang) {
+                    // Update locale config natively
+                    LocaleHelper.setLocale(this@ProfileActivity, selectedLangCode)
+                    // Restart app to Dashboard to apply language change globally across all screens
+                    val intent = Intent(this@ProfileActivity, DashboardActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
     override fun onResume() {
@@ -183,6 +234,10 @@ class ProfileActivity : BaseActivity() {
 
             startActivity(intent)
             startActivity(Intent(this, RemindersActivity::class.java))
+        }
+
+        binding.btnLanguage.setOnClickListener {
+            binding.languageSpinner.performClick()
         }
 
         binding.btnPrivacyPolicy.setOnClickListener {
