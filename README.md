@@ -56,6 +56,10 @@ The app was developed using:
 
 Users can create an account and sign in securely through Firebase Authentication. Registration includes validation for required details, valid email format, and minimum password length. This helps protect the user experience and prevents poor or incomplete account creation.
 
+Screenshot: 
+<img width="738" height="1089" alt="image" src="https://github.com/user-attachments/assets/18e76f90-d298-4d72-b52e-a949044c2eef" />
+
+
 ### 2. Dashboard
 
 The Dashboard acts as the primary home screen. It displays the current date, a greeting for the user, and a daily quote fetched via a REST API. If the quote API is unavailable, the app uses a default offline Stoic quote to maintain a positive user experience.
