@@ -91,7 +91,7 @@ class DashboardActivity : BaseActivity() {
                     true
                 }
                 R.id.nav_community -> {
-                    Toast.makeText(this, "Community coming soon", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, CommunityActivity::class.java))
                     true
                 }
                 R.id.nav_profile -> {

@@ -36,6 +36,7 @@
         <activity android:name=".activities.PersonalInfoActivity" />
         <activity android:name=".activities.AchievementsActivity" />
         <activity android:name=".activities.RemindersActivity" />
+        <activity android:name=".activities.CommunityActivity" />
         <activity android:name=".MainActivity" />
 
     </application>
