@@ -32,8 +32,9 @@ Stoic Mind includes the following major areas:
 - Habit management
 - Explore section with Stoic-inspired learning categories
 - Reminders and notifications
+- Community feature is coming soon
 - Progress and achievements
-- Profile and customization settings
+- Profile and customization settings 
 
 ## Technologies used
 
