@@ -10,5 +10,7 @@ data class Habit(
     val completedDays: List<String> = emptyList(),
     val currentStreak: Int = 0,
     val longestStreak: Int = 0,
-    val isActive: Boolean = true
+    val isActive: Boolean = true,
+    val colorHex: String = "#D1E8E2",
+    val isCompleted: Boolean = false
 )
