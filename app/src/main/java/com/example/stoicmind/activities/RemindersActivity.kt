@@ -5,7 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import com.example.stoicmind.databinding.ActivityRemindersBinding
+import com.example.stoicmind.notifications.NotificationHelper
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
@@ -20,6 +22,7 @@ class RemindersActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        setupClickListeners()
         loadSavedSettings()
         setupListeners()
     }
@@ -33,8 +36,19 @@ class RemindersActivity : BaseActivity() {
         }
     }
 
+    private fun setupClickListeners() {
+        binding.btnTestRealtimeAlert.setOnClickListener {
+            NotificationHelper.showNotification(
+                context = this,
+                title = "Stoic Mind Real-Time Alert",
+                body = "\"You have power over your mind - not outside events. Realize this, and you will find strength.\" - Marcus Aurelius"
+            )
+            Toast.makeText(this, "Real-Time notification dispatched!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun loadSavedSettings() {
-        val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("stoic_mind_prefs", MODE_PRIVATE)
 
         val morningEnabled = prefs.getBoolean("reminder_morning_enabled", true)
         val morningTime = prefs.getString("reminder_morning_time", "08:00 AM") ?: "08:00 AM"
@@ -50,7 +64,7 @@ class RemindersActivity : BaseActivity() {
     }
 
     private fun setupListeners() {
-        val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
+        val prefs = getSharedPreferences("stoic_mind_prefs", MODE_PRIVATE)
 
         binding.switchMorning.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("reminder_morning_enabled", isChecked).apply()
@@ -85,10 +99,10 @@ class RemindersActivity : BaseActivity() {
                     set(Calendar.HOUR_OF_DAY, selectedHour)
                     set(Calendar.MINUTE, selectedMinute)
                 }
-                val timeFormat = java.text.SimpleDateFormat("hh:mm a", Locale.getDefault())
+                val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
                 val formattedTime = timeFormat.format(calendarSelected.time)
 
-                val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
+                val prefs = getSharedPreferences("stoic_mind_prefs", MODE_PRIVATE)
                 if (isMorning) {
                     prefs.edit().putString("reminder_morning_time", formattedTime).apply()
                     binding.tvMorningTime.text = "Morning Reflection\n$formattedTime"

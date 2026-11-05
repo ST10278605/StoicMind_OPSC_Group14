@@ -5,12 +5,24 @@ import android.net.Uri
 import android.util.Log
 import com.example.stoicmind.models.*
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.util.Locale
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,6 +36,7 @@ class FirebaseManager @Inject constructor(
     private val storage = FirebaseStorage.getInstance()
     private val gson = Gson()
     private val prefs = context.getSharedPreferences("StoicMindAuthPrefs", Context.MODE_PRIVATE)
+    private val cloudinaryClient = OkHttpClient()
 
     private var mockUser: User? = null
     private val mockUsersMap = mutableMapOf<String, User>()
@@ -64,7 +77,6 @@ class FirebaseManager @Inject constructor(
             isEmailVerified = true
         )
 
-        // Store credentials and user locally so login works reliably across sessions
         prefs.edit()
             .putString("pwd_$email", password)
             .putString("uid_for_$email", userId)
@@ -81,15 +93,13 @@ class FirebaseManager @Inject constructor(
     suspend fun loginUser(email: String, password: String): Result<User> {
         return try {
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
-            val userId = authResult.user?.uid ?: ""
+            val userId = authResult.user?.uid ?: throw Exception("User ID not found")
             val user = getUser(userId)
             mockUser = user
             Result.success(user)
-
         } catch (e: Exception) {
             Log.e(TAG, "Firebase login failed, checking local storage credentials", e)
 
-            // Check if account is registered locally
             val storedPassword = prefs.getString("pwd_$email", null)
             if (storedPassword == null) {
                 return Result.failure(Exception("Account not found. Please register an account first."))
@@ -104,7 +114,7 @@ class FirebaseManager @Inject constructor(
                 gson.fromJson(userJson, User::class.java)
             } else {
                 val derivedName = email.substringBefore("@").replace(".", " ")
-                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+                    .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
                 User(id = userId, name = derivedName, email = email, isEmailVerified = true)
             }
 
@@ -116,19 +126,32 @@ class FirebaseManager @Inject constructor(
 
     suspend fun googleSignIn(idToken: String): Result<User> {
         return try {
-            val credential =
-                com.google.firebase.auth.GoogleAuthProvider.getCredential(idToken, null)
-
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
             val authResult = auth.signInWithCredential(credential).await()
-            val userId = authResult.user?.uid ?: ""
-            val user = getUser(userId)
+            val firebaseUser = authResult.user
+            val userId = firebaseUser?.uid ?: "google_${System.currentTimeMillis()}"
+            var user = getUser(userId)
+
+            if (user.email.isEmpty() && firebaseUser != null) {
+                user = user.copy(
+                    email = firebaseUser.email ?: "googleuser@gmail.com",
+                    name = firebaseUser.displayName ?: firebaseUser.email?.substringBefore("@") ?: "Google Practitioner"
+                )
+                saveUser(user)
+            }
             mockUser = user
-
             Result.success(user)
-
         } catch (e: Exception) {
-            Log.e(TAG, "Google sign in failed", e)
-            Result.failure(e)
+            Log.e(TAG, "Google sign in failed, using local fallback", e)
+            val mockId = "mock_google_uid"
+            val user = mockUsersMap[mockId] ?: User(
+                id = mockId,
+                email = "googleuser@gmail.com",
+                name = "Google Practitioner"
+            )
+            mockUser = user
+            mockUsersMap[mockId] = user
+            Result.success(user)
         }
     }
 
@@ -137,22 +160,21 @@ class FirebaseManager @Inject constructor(
             auth.signOut()
         } catch (e: Exception) {
             Log.e(TAG, "Logout failed", e)
-        } catch (_: Exception) {
-            // Ignore
         }
-
         mockUser = null
     }
 
     fun getCurrentUserId(): String? {
         return try {
-            auth.currentUser?.uid ?: mockUser?.id
-        } catch (_: Exception) {
-            mockUser?.id
+            auth.currentUser?.uid ?: mockUser?.id ?: "guest_user"
+        } catch (e: Exception) {
+            Log.e(TAG, "Could not get current user ID", e)
+            mockUser?.id ?: "guest_user"
         }
     }
 
-    // User Methods
+    // USER METHODS
+
     suspend fun saveUser(user: User) {
         try {
             db.collection(USERS_COLLECTION)
@@ -194,68 +216,76 @@ class FirebaseManager @Inject constructor(
         }
     }
 
-    // Firebase Storage: Upload Profile Image
+    // PROFILE IMAGE UPLOAD
+
     suspend fun uploadProfileImage(
         userId: String,
         imageUri: Uri
     ): Result<String> {
-        return try {
-            val imageRef = storage.reference
-                .child("profile_images/$userId.jpg")
+        return withContext(Dispatchers.IO) {
+            try {
+                val imageBytes = context.contentResolver
+                    .openInputStream(imageUri)
+                    ?.use { it.readBytes() }
+                    ?: throw Exception("Could not read selected image")
 
-            // Upload the selected image
-            imageRef.putFile(imageUri).await()
+                val requestBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("upload_preset", "stoic_profile_upload")
+                    .addFormDataPart("folder", "stoic-profile-images")
+                    .addFormDataPart(
+                        "file",
+                        "profile_$userId.jpg",
+                        imageBytes.toRequestBody("image/*".toMediaType())
+                    )
+                    .build()
 
-            // Retrieve the image download URL
-            val downloadUrl = imageRef.downloadUrl.await().toString()
+                val request = Request.Builder()
+                    .url("https://api.cloudinary.com/v1_1/komqlp72/image/upload")
+                    .post(requestBody)
+                    .build()
 
-            // Save the URL in the user's Firestore document
-            db.collection(USERS_COLLECTION)
-                .document(userId)
-                .update("profileImageUrl", downloadUrl)
-                .await()
+                val response = cloudinaryClient.newCall(request).execute()
+                val responseBody = response.body?.string()
+                    ?: throw Exception("Empty Cloudinary response")
 
-            Log.d(TAG, "Profile image uploaded successfully")
+                if (!response.isSuccessful) {
+                    throw Exception("Cloudinary upload failed: $responseBody")
+                }
 
-            Result.success(downloadUrl)
+                val secureUrl = JSONObject(responseBody).getString("secure_url")
 
-        } catch (e: Exception) {
-            Log.e(TAG, "Profile image upload failed", e)
-            Result.failure(e)
+                db.collection(USERS_COLLECTION)
+                    .document(userId)
+                    .update("profileImageUrl", secureUrl)
+                    .await()
+
+                Log.d(TAG, "Cloudinary profile image uploaded successfully")
+                Result.success(secureUrl)
+            } catch (e: Exception) {
+                Log.e(TAG, "Cloudinary profile image upload failed", e)
+                Result.failure(e)
+            }
         }
     }
 
-    // Journal Methods
     // JOURNAL METHODS
 
     suspend fun saveJournalEntry(entry: JournalEntry): Result<String> {
         return try {
-            val userId = auth.currentUser?.uid
-                ?: throw Exception("User is not logged in")
-
             val docRef = db.collection(JOURNAL_COLLECTION).document()
-
-            val entryWithId = entry.copy(
-                id = docRef.id,
-                userId = userId
-            )
-
+            val entryWithId = entry.copy(id = docRef.id.ifEmpty { entry.id })
             docRef.set(entryWithId).await()
-
-            Result.success(docRef.id)
-
-        } catch (e: Exception) {
-            Log.e(TAG, "Save journal entry failed, using mock", e)
-
-            val mockId = entry.id.ifEmpty { java.util.UUID.randomUUID().toString() }
-            val entryWithId = entry.copy(id = mockId)
-
             mockJournalEntries.removeAll { it.id == entryWithId.id }
             mockJournalEntries.add(0, entryWithId)
-
+            Result.success(docRef.id)
+        } catch (e: Exception) {
+            Log.e(TAG, "Save journal entry failed, using mock", e)
+            val mockId = entry.id.ifEmpty { UUID.randomUUID().toString() }
+            val entryWithId = entry.copy(id = mockId)
+            mockJournalEntries.removeAll { it.id == entryWithId.id }
+            mockJournalEntries.add(0, entryWithId)
             Result.success(mockId)
-            Log.e(TAG, "Save journal entry failed", e)
-            Result.failure(e)
         }
     }
 
@@ -263,10 +293,7 @@ class FirebaseManager @Inject constructor(
         return try {
             val querySnapshot = db.collection(JOURNAL_COLLECTION)
                 .whereEqualTo("userId", userId)
-                .orderBy(
-                    "date",
-                    com.google.firebase.firestore.Query.Direction.DESCENDING
-                )
+                .orderBy("date", Query.Direction.DESCENDING)
                 .get()
                 .await()
 
@@ -283,35 +310,29 @@ class FirebaseManager @Inject constructor(
             } else {
                 mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
             }
-
         } catch (e: Exception) {
             Log.e(TAG, "Get journal entries failed, using mock", e)
             mockJournalEntries.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.toList()
         }
     }
 
-
-// HABIT METHODS
+    // HABIT METHODS
 
     suspend fun saveHabit(habit: Habit): Result<String> {
         return try {
-            val userId = auth.currentUser?.uid
-                ?: throw Exception("User is not logged in")
-
             val docRef = db.collection(HABITS_COLLECTION).document()
-
-            val habitWithId = habit.copy(
-                id = docRef.id,
-                userId = userId
-            )
-
+            val habitWithId = habit.copy(id = docRef.id)
             docRef.set(habitWithId).await()
-
+            mockHabits.removeAll { it.id == habitWithId.id }
+            mockHabits.add(habitWithId)
             Result.success(docRef.id)
-
         } catch (e: Exception) {
-            Log.e(TAG, "Save habit failed", e)
-            Result.failure(e)
+            Log.e(TAG, "Save habit failed, using mock", e)
+            val mockId = habit.id.ifEmpty { UUID.randomUUID().toString() }
+            val habitWithId = habit.copy(id = mockId)
+            mockHabits.removeAll { it.id == habitWithId.id }
+            mockHabits.add(habitWithId)
+            Result.success(mockId)
         }
     }
 
@@ -336,35 +357,29 @@ class FirebaseManager @Inject constructor(
             } else {
                 mockHabits.filter { (it.userId == userId) && it.isActive }
             }
-
         } catch (e: Exception) {
             Log.e(TAG, "Get habits failed, using mock", e)
             mockHabits.filter { (it.userId == userId) && it.isActive }
         }
     }
 
-
-// MOOD METHODS
+    // MOOD METHODS
 
     suspend fun saveMood(mood: MoodCheckIn): Result<String> {
         return try {
-            val userId = auth.currentUser?.uid
-                ?: throw Exception("User is not logged in")
-
             val docRef = db.collection(MOODS_COLLECTION).document()
-
-            val moodWithId = mood.copy(
-                id = docRef.id,
-                userId = userId
-            )
-
+            val moodWithId = mood.copy(id = docRef.id)
             docRef.set(moodWithId).await()
-
+            mockMoods.removeAll { it.id == moodWithId.id }
+            mockMoods.add(moodWithId)
             Result.success(docRef.id)
-
         } catch (e: Exception) {
-            Log.e(TAG, "Save mood failed", e)
-            Result.failure(e)
+            Log.e(TAG, "Save mood failed, using mock", e)
+            val mockId = mood.id.ifEmpty { UUID.randomUUID().toString() }
+            val moodWithId = mood.copy(id = mockId)
+            mockMoods.removeAll { it.id == moodWithId.id }
+            mockMoods.add(moodWithId)
+            Result.success(mockId)
         }
     }
 
@@ -373,10 +388,7 @@ class FirebaseManager @Inject constructor(
         return try {
             val querySnapshot = db.collection(MOODS_COLLECTION)
                 .whereEqualTo("userId", userId)
-                .orderBy(
-                    "date",
-                    com.google.firebase.firestore.Query.Direction.DESCENDING
-                )
+                .orderBy("date", Query.Direction.DESCENDING)
                 .limit(30)
                 .get()
                 .await()
@@ -395,15 +407,13 @@ class FirebaseManager @Inject constructor(
             } else {
                 mockMoods.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.take(30).toList()
             }
-
         } catch (e: Exception) {
             Log.e(TAG, "Get moods failed, using mock", e)
             mockMoods.asSequence().filter { it.userId == userId }.sortedByDescending { it.date }.take(30).toList()
         }
     }
 
-
-// ACHIEVEMENT METHODS
+    // ACHIEVEMENT METHODS
 
     suspend fun getAchievements(userId: String): List<Achievement> {
         return try {
@@ -415,7 +425,6 @@ class FirebaseManager @Inject constructor(
             querySnapshot.documents.mapNotNull {
                 it.toObject(Achievement::class.java)
             }
-
         } catch (e: Exception) {
             Log.e(TAG, "Get achievements failed", e)
             emptyList()

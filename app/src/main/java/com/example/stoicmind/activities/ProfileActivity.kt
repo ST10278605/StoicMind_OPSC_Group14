@@ -4,10 +4,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.stoicmind.LocaleHelper
 import com.example.stoicmind.R
 import com.example.stoicmind.database.FirebaseManager
 import com.example.stoicmind.databinding.ActivityProfileBinding
@@ -21,6 +26,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProfileActivity : BaseActivity() {
 
+    private lateinit var languageSpinner: Spinner
+    private var isInitialDisplay = true
     private lateinit var binding: ActivityProfileBinding
 
     @Inject
@@ -41,6 +48,51 @@ class ProfileActivity : BaseActivity() {
 
         setupToolbar()
         setupClickListeners()
+        setupLanguageSpinner()
+    }
+
+    private fun setupLanguageSpinner() {
+        languageSpinner = binding.languageSpinner
+
+        val languages = arrayOf("English", "Zulu", "Setswana", "Sepedi")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = adapter
+
+        val currentLang = LocaleHelper.getLanguage(this)
+        val initialSelection = when (currentLang) {
+            "zu", "zulu" -> 1
+            "tn", "tswana" -> 2
+            "nso", "pedi" -> 3
+            else -> 0
+        }
+        languageSpinner.setSelection(initialSelection)
+
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isInitialDisplay) {
+                    isInitialDisplay = false
+                    return
+                }
+
+                val selectedLangCode = when (position) {
+                    1 -> "zu"
+                    2 -> "tn"
+                    3 -> "nso"
+                    else -> "en"
+                }
+
+                if (selectedLangCode != currentLang) {
+                    LocaleHelper.setLocale(this@ProfileActivity, selectedLangCode)
+                    val intent = Intent(this@ProfileActivity, DashboardActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
     override fun onResume() {
@@ -167,22 +219,11 @@ class ProfileActivity : BaseActivity() {
         }
 
         binding.btnNotifications.setOnClickListener {
-            val intent = Intent().apply {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    action = android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                    putExtra(
-                        android.provider.Settings.EXTRA_APP_PACKAGE,
-                        packageName
-                    )
-                } else {
-                    action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                    putExtra("app_package", packageName)
-                    putExtra("app_uid", applicationInfo.uid)
-                }
-            }
-
-            startActivity(intent)
             startActivity(Intent(this, RemindersActivity::class.java))
+        }
+
+        binding.btnLanguage.setOnClickListener {
+            binding.languageSpinner.performClick()
         }
 
         binding.btnPrivacyPolicy.setOnClickListener {
@@ -246,7 +287,6 @@ class ProfileActivity : BaseActivity() {
             sharedPreferences.edit()
                 .putString("app_theme", selectedTheme)
                 .apply()
-            sharedPreferences.edit().putString("app_theme", selectedTheme).apply()
 
             val userId = firebaseManager.getCurrentUserId()
             if (userId != null) {

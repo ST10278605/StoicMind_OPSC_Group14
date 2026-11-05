@@ -35,6 +35,22 @@ class LoginActivity : BaseActivity() {
         
         setupGoogleSignIn()
         setupClickListeners()
+        handleRegisteredEmail(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleRegisteredEmail(intent)
+    }
+
+    private fun handleRegisteredEmail(intent: Intent?) {
+        val email = intent?.getStringExtra("registered_email")
+        if (!email.isNullOrBlank()) {
+            binding.etEmail.setText(email)
+            binding.etPassword.setText("")
+            binding.etPassword.requestFocus()
+        }
     }
     
     private fun setupGoogleSignIn() {
@@ -65,7 +81,6 @@ class LoginActivity : BaseActivity() {
         }
         
         binding.tvForgotPassword.setOnClickListener {
-            // Navigate to forgot password screen
             Toast.makeText(this, "Forgot password feature coming soon", Toast.LENGTH_SHORT).show()
         }
     }
