@@ -78,12 +78,13 @@ class RegisterActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     binding.btnRegister.isEnabled = true
                     if (result.isSuccess) {
+                        firebaseManager.logout()
                         Toast.makeText(
                             this@RegisterActivity,
-                            "Account created successfully!",
-                            Toast.LENGTH_SHORT
+                            "Account created successfully! Please sign in with your details.",
+                            Toast.LENGTH_LONG
                         ).show()
-                        navigateToDashboard()
+                        navigateToLogin(email)
                     } else {
                         val errorMsg = result.exceptionOrNull()?.message ?: "Unknown error"
                         Toast.makeText(
@@ -103,9 +104,11 @@ class RegisterActivity : BaseActivity() {
         }
     }
 
-    private fun navigateToDashboard() {
-        val intent = Intent(this, DashboardActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    private fun navigateToLogin(email: String) {
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            putExtra("registered_email", email)
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
         startActivity(intent)
         finish()
     }

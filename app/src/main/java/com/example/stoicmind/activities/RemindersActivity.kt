@@ -45,6 +45,7 @@ class RemindersActivity : BaseActivity() {
             Toast.makeText(this, "Real-Time notification dispatched!", Toast.LENGTH_SHORT).show()
         }
     }
+
 }
     private fun loadSavedSettings() {
         val prefs = getSharedPreferences("stoic_mind_prefs", Context.MODE_PRIVATE)
