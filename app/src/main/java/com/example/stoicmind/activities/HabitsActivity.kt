@@ -48,6 +48,11 @@ class HabitsActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadHabits()
+    }
+
     private fun getUserId(): String {
         return firebaseManager.getCurrentUserId() ?: "guest_user"
     }
@@ -142,14 +147,27 @@ class HabitsActivity : BaseActivity() {
             try {
                 val doc = db.collection("users").document(userId).get().await()
                 if (doc.exists() && doc.contains("habitsList")) {
-                    val listType = object : TypeToken<List<Habit>>() {}.type
-                    val json = gson.toJson(doc.get("habitsList"))
-                    val remoteHabits: List<Habit>? = gson.fromJson(json, listType)
-                    if (!remoteHabits.isNullOrEmpty()) {
-                        saveHabitsLocally(userId, remoteHabits)
-                        launch(Dispatchers.Main) {
-                            habitsList = remoteHabits.toMutableList()
-                            habitsAdapter.updateHabits(habitsList)
+                    val rawList = doc.get("habitsList") as? List<*>
+                    if (rawList != null) {
+                        val remoteHabits = rawList.mapNotNull { item ->
+                            if (item is Map<*, *>) {
+                                val jsonStr = gson.toJson(item)
+                                val jsonObject = com.google.gson.JsonParser.parseString(jsonStr).asJsonObject
+                                if (jsonObject.has("completed") && !jsonObject.has("isCompleted")) {
+                                    jsonObject.add("isCompleted", jsonObject.get("completed"))
+                                }
+                                if (jsonObject.has("active") && !jsonObject.has("isActive")) {
+                                    jsonObject.add("isActive", jsonObject.get("active"))
+                                }
+                                gson.fromJson(jsonObject, Habit::class.java)
+                            } else null
+                        }
+                        if (remoteHabits.isNotEmpty()) {
+                            saveHabitsLocally(userId, remoteHabits)
+                            launch(Dispatchers.Main) {
+                                habitsList = remoteHabits.toMutableList()
+                                habitsAdapter.updateHabits(habitsList)
+                            }
                         }
                     }
                 }
