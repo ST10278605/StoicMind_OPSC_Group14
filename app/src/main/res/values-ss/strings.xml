@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">StoicMind</string>
+    <string name="welcome_message">Wamukelekile ku-StoicMind</string>
+    <string name="select_language">Khetsa lulwimi</string>
+
+    <!-- Navigation & Bottom Nav -->
+    <string name="nav_home">Ekhaya</string>
+    <string name="nav_explore">Hlola</string>
+    <string name="nav_journal">Incwadi yemicabango</string>
+    <string name="nav_community">Umphakatsi</string>
+    <string name="nav_profile">Iphrofayili</string>
+
+    <!-- Settings & Profile -->
+    <string name="settings">Tinhlelo</string>
+    <string name="profile_and_settings">Iphrofayili neTinhlelo</string>
+    <string name="personal_information">Lwatiso Lwakho</string>
+    <string name="notifications">Taziso</string>
+    <string name="appearance">Kubukeka</string>
+    <string name="change_language">Gucula Lulwimi</string>
+    <string name="privacy_policy">Inqubo Yemfihlo</string>
+    <string name="logout">Phuma</string>
+    <string name="stoic_practitioner">Umsenti we-Stoic</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard">Idashbodi</string>
+    <string name="welcome_back">Wamukelekile Loku</string>
+    <string name="greeting_user">Lotjhani, %1$s</string>
+    <string name="greeting_default">Lotjhani, Stoic</string>
+    <string name="reflect_now">Cabanga Manje</string>
+    <string name="daily_reflection">Kucabanga Kwamalanga Onkhe</string>
+    <string name="journal">Incwadi</string>
+    <string name="mood">Imivo</string>
+    <string name="mood_check_in">Kuhlola Imivo</string>
+    <string name="habits">Imikhupha</string>
+    <string name="explore">Hlola</string>
+    <string name="achievements">Imphumelelo</string>
+    <string name="reminders">Tikhumbuto</string>
+
+    <!-- Personal Information Screen -->
+    <string name="identity">Sitfuntwo</string>
+    <string name="full_name">Libito Leligcwele</string>
+    <string name="email_address">Likheli Le-Imeyili</string>
+    <string name="your_stoic_journey">Luhambo Lwakho Lwe-Stoic</string>
+    <string name="rank">Lizinga</string>
+    <string name="joined">Ujoyine</string>
+    <string name="primary_virtue_focus">Kugcila Ku-Virtue</string>
+    <string name="select_virtue_hint">Khetsa virtue lofundza kakhulu nyalo.</string>
+    <string name="save_all_changes">Gcina Wonkhe Mabhuku</string>
+    <string name="account_actions">Tento Tene-Akhawunti</string>
+    <string name="request_password_reset">Cela Kutfuntfa Igama Lokungena</string>
+    <string name="delete_journey">Sula Luhambo (Vala Akhawunti)</string>
+
+    <!-- Appearance Dialog -->
+    <string name="choose_theme_color">Khetsa Umbala We-Theme</string>
+    <string name="theme_classic">Stoic Yekucala (Slate/Gauta)</string>
+    <string name="theme_serene">Kuhlakanipha Lokuthula (Teal/Thula)</string>
+    <string name="theme_courage">Sbindi Se-Stoic (Crimson/Burgundy)</string>
+    <string name="theme_nature">Amor Fati (Lihlatsi Leluhlaza/Sage)</string>
+    <string name="cancel">Khansela</string>
+    <string name="apply">Sebentisa</string>
+
+    <!-- Authentication -->
+    <string name="email">Imeyili</string>
+    <string name="password">Igama Lokungena</string>
+    <string name="login">Ngena</string>
+    <string name="register">Yakha Akhawunti</string>
+    <string name="forgot_password">Ukhohlwe Igama Lokungena?</string>
+    <string name="continue_with_google">Rhubeka ne-Google</string>
+    <string name="dont_have_account">Awunayo akhawunti? Bhalisa</string>
+    <string name="already_have_account">Unayo akhawunti? Ngena</string>
+</resources>
