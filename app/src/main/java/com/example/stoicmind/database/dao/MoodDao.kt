@@ -9,6 +9,9 @@ import com.example.stoicmind.database.entity.MoodCheckInEntity
 @Dao
 interface MoodDao {
 
+    @Query("SELECT * FROM mood_checkins WHERE userId = :userId ORDER BY date DESC")
+    suspend fun getMoodCheckIns(userId: String): List<MoodCheckInEntity>
+
     @Query("SELECT * FROM mood_checkins WHERE isSynced = 0")
     suspend fun getUnsyncedMoodCheckIns(): List<MoodCheckInEntity>
 

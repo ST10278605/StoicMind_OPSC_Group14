@@ -44,6 +44,14 @@ class SyncRepository @Inject constructor(
         }
     }
 
+    suspend fun getJournalEntriesForUser(userId: String): List<JournalEntry> {
+        return journalDao.getJournalEntries(userId).map { it.toDomainModel() }
+    }
+
+    suspend fun getMoodCheckInsForUser(userId: String): List<MoodCheckIn> {
+        return moodDao.getMoodCheckIns(userId).map { it.toDomainModel() }
+    }
+
     suspend fun saveJournalEntry(entry: JournalEntry): Result<String> {
         val entryId = if (entry.id.isBlank()) "journal_${System.currentTimeMillis()}" else entry.id
         val entryToSave = entry.copy(id = entryId)

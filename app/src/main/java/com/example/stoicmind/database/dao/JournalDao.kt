@@ -13,6 +13,9 @@ interface JournalDao {
     @Query("SELECT * FROM journal_entries WHERE userId = :userId ORDER BY date DESC")
     fun getJournalEntriesFlow(userId: String): Flow<List<JournalEntryEntity>>
 
+    @Query("SELECT * FROM journal_entries WHERE userId = :userId ORDER BY date DESC")
+    suspend fun getJournalEntries(userId: String): List<JournalEntryEntity>
+
     @Query("SELECT * FROM journal_entries WHERE isSynced = 0")
     suspend fun getUnsyncedJournalEntries(): List<JournalEntryEntity>
 
