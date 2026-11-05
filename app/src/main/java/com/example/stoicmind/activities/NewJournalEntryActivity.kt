@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.stoicmind.database.FirebaseManager
 import com.example.stoicmind.databinding.ActivityJournalNewEntryBinding
 import com.example.stoicmind.models.JournalEntry
+import com.example.stoicmind.repository.SyncRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,6 +19,9 @@ class NewJournalEntryActivity : BaseActivity() {
 
     @Inject
     lateinit var firebaseManager: FirebaseManager
+
+    @Inject
+    lateinit var syncRepository: SyncRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +45,7 @@ class NewJournalEntryActivity : BaseActivity() {
     }
 
     private fun setupClickListeners() {
-
         binding.btnSave.setOnClickListener {
-
             val title = binding.etTitle.text.toString().trim()
             val content = binding.etContent.text.toString().trim()
 
@@ -74,7 +76,6 @@ class NewJournalEntryActivity : BaseActivity() {
     }
 
     private fun saveJournalEntry(title: String, content: String) {
-
         val userId = firebaseManager.getCurrentUserId() ?: "guest_user"
 
         val selectedMoodId = binding.rgMood.checkedRadioButtonId
@@ -92,25 +93,20 @@ class NewJournalEntryActivity : BaseActivity() {
             mood = mood,
             date = System.currentTimeMillis(),
             tags = emptyList(),
-            isSynced = true
+            isSynced = false
         )
 
         lifecycleScope.launch {
-
-            val result = firebaseManager.saveJournalEntry(journalEntry)
+            val result = syncRepository.saveJournalEntry(journalEntry)
 
             if (result.isSuccess) {
-
                 Toast.makeText(
                     this@NewJournalEntryActivity,
-                    "Journal entry saved successfully!",
+                    "Journal entry saved locally!",
                     Toast.LENGTH_SHORT
                 ).show()
-
                 finish()
-
             } else {
-
                 Toast.makeText(
                     this@NewJournalEntryActivity,
                     "Unable to save journal entry. Please try again.",

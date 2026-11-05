@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?android:attr/windowBackground">
+    android:background="?android:attr/windowBackground"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbarInclude"
@@ -22,23 +22,34 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="?attr/colorPrimary"
                 android:gravity="center"
-                android:padding="32dp"
-                android:background="?attr/colorPrimary">
+                android:orientation="vertical"
+                android:padding="32dp">
 
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:src="@drawable/ic_profile"
-                    app:tint="@android:color/white" />
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Profile picture"
+                    android:background="@android:color/white"
+                    android:padding="4dp" />
+
+                <Button
+                    android:id="@+id/btnChangeProfileImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Change Profile Picture" />
 
                 <TextView
                     android:id="@+id/tvProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Stoic Practitioner"
+                    android:text="@string/stoic_practitioner"
                     android:textColor="@android:color/white"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -47,9 +58,9 @@
                     android:id="@+id/tvProfileEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:alpha="0.7"
                     android:text="practitioner@stoicmind.com"
-                    android:textColor="@android:color/white"
-                    android:alpha="0.7" />
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <LinearLayout
@@ -61,42 +72,64 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Settings"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/settings"
                     android:textColor="@color/colorTextPrimary"
-                    android:layout_marginBottom="16dp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btnPersonalInfo"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Personal Information"
+                    android:text="@string/personal_information"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnNotifications"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Notifications"
+                    android:text="@string/notifications"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
                 <Button
                     android:id="@+id/btnAppearance"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Appearance"
+                    android:text="@string/appearance"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
+
+                <Button
+                    android:id="@+id/btnLanguage"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/change_language"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextPrimary" />
+
+                <Spinner
+                    android:id="@+id/languageSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_marginBottom="40dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextPrimary"
+                    android:visibility="gone"/>
+
                 <Button
                     android:id="@+id/btnPrivacyPolicy"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Privacy Policy"
+                    android:text="@string/privacy_policy"
                     android:textAlignment="viewStart"
                     android:textColor="@color/colorTextPrimary" />
 
@@ -105,8 +138,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Logout"
-                    android:backgroundTint="@color/colorError" />
+                    android:backgroundTint="@color/colorError"
+                    android:text="@string/logout" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

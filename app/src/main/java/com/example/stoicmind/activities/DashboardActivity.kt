@@ -3,7 +3,6 @@ package com.example.stoicmind.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.stoicmind.R
 import com.example.stoicmind.databinding.ActivityDashboardBinding
@@ -16,24 +15,42 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DashboardActivity : BaseActivity() {
-    
+
     private lateinit var binding: ActivityDashboardBinding
-    
+
     @Inject
     lateinit var firebaseManager: FirebaseManager
-    
+
     private var currentQuote: Quote? = null
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         setupClickListeners()
         setupBottomNavigation()
         updateDateDisplay()
         loadDailyQuote()
         loadUserData()
+        checkNotificationPermission()
+    }
+
+    private fun checkNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (androidx.core.content.ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) {
+                androidx.core.app.ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                    101
+                )
+            }
+        }
     }
 
     override fun onResume() {
@@ -42,27 +59,30 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun updateDateDisplay() {
-        val sdf = java.text.SimpleDateFormat("EEEE, MMMM d, yyyy", java.util.Locale.getDefault())
+        val sdf = java.text.SimpleDateFormat(
+            "EEEE, MMMM d, yyyy",
+            java.util.Locale.getDefault()
+        )
         binding.tvDate.text = sdf.format(java.util.Date())
     }
-    
+
     private fun setupClickListeners() {
         binding.btnReflectNow.setOnClickListener {
             startActivity(Intent(this, DailyReflectionActivity::class.java))
         }
-        
+
         binding.btnJournal.setOnClickListener {
             startActivity(Intent(this, JournalActivity::class.java))
         }
-        
+
         binding.btnMood.setOnClickListener {
             startActivity(Intent(this, MoodCheckInActivity::class.java))
         }
-        
+
         binding.btnHabits.setOnClickListener {
             startActivity(Intent(this, HabitsActivity::class.java))
         }
-        
+
         binding.btnExplore.setOnClickListener {
             startActivity(Intent(this, ExploreActivity::class.java))
         }
@@ -75,7 +95,7 @@ class DashboardActivity : BaseActivity() {
             startActivity(Intent(this, RemindersActivity::class.java))
         }
     }
-    
+
     private fun setupBottomNavigation() {
         binding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -91,7 +111,7 @@ class DashboardActivity : BaseActivity() {
                     true
                 }
                 R.id.nav_community -> {
-                    Toast.makeText(this, "Community coming soon", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, CommunityActivity::class.java))
                     true
                 }
                 R.id.nav_profile -> {
@@ -101,14 +121,19 @@ class DashboardActivity : BaseActivity() {
                 else -> false
             }
         }
-        
+
         binding.bottomNav.selectedItemId = R.id.nav_home
     }
 
     private fun loadDailyQuote() {
         lifecycleScope.launch {
             try {
-                val quote = RetrofitClient.apiService.getRandomQuote()
+                val apiQuote = RetrofitClient.apiService.getRandomQuote()
+                val quote = Quote(
+                    id = apiQuote.text.hashCode().toString(),
+                    text = apiQuote.text,
+                    author = apiQuote.author
+                )
                 currentQuote = quote
                 updateQuoteUI(quote)
             } catch (e: Exception) {
@@ -117,19 +142,31 @@ class DashboardActivity : BaseActivity() {
             }
         }
     }
-    
+
     private fun updateQuoteUI(quote: Quote) {
         binding.tvDailyQuote.text = quote.text
         binding.tvQuoteAuthor.text = "- ${quote.author}"
     }
-    
+
     private fun loadUserData() {
         val userId = firebaseManager.getCurrentUserId()
         if (userId != null) {
             lifecycleScope.launch {
                 try {
                     val user = firebaseManager.getUser(userId)
-                    binding.tvGreeting.text = "Good Morning, ${user.name.ifEmpty { "Stoic" }}"
+                    val nameToDisplay = user.name.ifEmpty {
+                        user.email.substringBefore("@")
+                            .replace(".", " ")
+                            .replaceFirstChar {
+                                if (it.isLowerCase()) {
+                                    it.titlecase(java.util.Locale.getDefault())
+                                } else {
+                                    it.toString()
+                                }
+                            }
+                    }
+                    binding.tvGreeting.text =
+                        "Good Morning, ${nameToDisplay.ifEmpty { "Stoic" }}"
                 } catch (e: Exception) {
                     binding.tvGreeting.text = "Good Morning, Stoic"
                 }

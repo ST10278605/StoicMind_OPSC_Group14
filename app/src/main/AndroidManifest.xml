@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".StoicMindApplication"
         android:allowBackup="true"
@@ -13,29 +15,47 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StoicMind">
 
+        <!-- Firebase Messaging Service for Real-Time Push Notifications -->
+        <service
+            android:name=".notifications.StoicMindMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="stoicmind_realtime_alerts" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+
         <activity
             android:name=".activities.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="layoutDirection|locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.DashboardActivity" />
-        <activity android:name=".activities.DailyReflectionActivity" />
-        <activity android:name=".activities.JournalActivity" />
-        <activity android:name=".activities.NewJournalEntryActivity" />
-        <activity android:name=".activities.MoodCheckInActivity" />
-        <activity android:name=".activities.HabitsActivity" />
-        <activity android:name=".activities.ExploreActivity" />
-        <activity android:name=".activities.ExploreCategoryContentActivity" />
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.PersonalInfoActivity" />
-        <activity android:name=".activities.AchievementsActivity" />
-        <activity android:name=".activities.RemindersActivity" />
+        <activity android:name=".activities.LoginActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.RegisterActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.DashboardActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.DailyReflectionActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.JournalActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.NewJournalEntryActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.MoodCheckInActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.HabitsActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.ExploreActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.ExploreCategoryContentActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.ProfileActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.PersonalInfoActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.AchievementsActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.RemindersActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.CommunityActivity" android:configChanges="layoutDirection|locale" />
         <activity android:name=".MainActivity" />
 
     </application>
