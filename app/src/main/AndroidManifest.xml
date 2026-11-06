@@ -33,38 +33,30 @@
 
         <activity
             android:name=".activities.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="layoutDirection|locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.DashboardActivity" />
-        <activity android:name=".activities.DailyReflectionActivity" />
-        <activity android:name=".activities.JournalActivity" />
-        <activity android:name=".activities.NewJournalEntryActivity" />
-        <activity android:name=".activities.MoodCheckInActivity" />
-        <activity android:name=".activities.HabitsActivity" />
-        <activity android:name=".activities.ExploreActivity" />
-        <activity android:name=".activities.ExploreCategoryContentActivity" />
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.PersonalInfoActivity" />
-        <activity android:name=".activities.AchievementsActivity" />
-        <activity android:name=".activities.RemindersActivity" />
-
-        <service
-            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
-            android:enabled="false"
-            android:exported="false">
-
-            <meta-data
-                android:name="autoStoreLocales"
-                android:value="true" />
-
-        </service>
+        <activity android:name=".activities.LoginActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.RegisterActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.DashboardActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.DailyReflectionActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.JournalActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.NewJournalEntryActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.MoodCheckInActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.HabitsActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.ExploreActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.ExploreCategoryContentActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.ProfileActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.PersonalInfoActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.AchievementsActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.RemindersActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".activities.CommunityActivity" android:configChanges="layoutDirection|locale" />
+        <activity android:name=".MainActivity" />
 
     </application>
 

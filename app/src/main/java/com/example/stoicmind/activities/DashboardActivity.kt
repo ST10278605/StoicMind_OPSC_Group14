@@ -67,7 +67,6 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun setupClickListeners() {
-
         binding.btnReflectNow.setOnClickListener {
             startActivity(Intent(this, DailyReflectionActivity::class.java))
         }
@@ -98,39 +97,27 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun setupBottomNavigation() {
-
         binding.bottomNav.setOnNavigationItemSelectedListener { menuItem ->
-
             when (menuItem.itemId) {
-
                 R.id.nav_home -> {
                     true
                 }
-
                 R.id.nav_explore -> {
                     startActivity(Intent(this, ExploreActivity::class.java))
                     true
                 }
-
                 R.id.nav_journal -> {
                     startActivity(Intent(this, JournalActivity::class.java))
                     true
                 }
-
                 R.id.nav_community -> {
-                    Toast.makeText(
-                        this,
-                        "Community coming soon",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    startActivity(Intent(this, CommunityActivity::class.java))
                     true
                 }
-
                 R.id.nav_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
-
                 else -> false
             }
         }
@@ -139,34 +126,19 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun loadDailyQuote() {
-
         lifecycleScope.launch {
-
             try {
-
-                // Retrieve quote from REST API
                 val apiQuote = RetrofitClient.apiService.getRandomQuote()
-
-                // Convert API response into the existing Quote model
                 val quote = Quote(
                     id = apiQuote.text.hashCode().toString(),
                     text = apiQuote.text,
                     author = apiQuote.author
                 )
-
                 currentQuote = quote
                 updateQuoteUI(quote)
-
             } catch (e: Exception) {
-
                 binding.tvDailyQuote.text = "The obstacle is the way."
                 binding.tvQuoteAuthor.text = "- Marcus Aurelius"
-
-                Toast.makeText(
-                    this@DashboardActivity,
-                    "Unable to load quote. Showing offline quote.",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
@@ -177,17 +149,11 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun loadUserData() {
-
         val userId = firebaseManager.getCurrentUserId()
-
         if (userId != null) {
-
             lifecycleScope.launch {
-
                 try {
-
                     val user = firebaseManager.getUser(userId)
-
                     val nameToDisplay = user.name.ifEmpty {
                         user.email.substringBefore("@")
                             .replace(".", " ")
@@ -199,12 +165,9 @@ class DashboardActivity : BaseActivity() {
                                 }
                             }
                     }
-
                     binding.tvGreeting.text =
                         "Good Morning, ${nameToDisplay.ifEmpty { "Stoic" }}"
-
                 } catch (e: Exception) {
-
                     binding.tvGreeting.text = "Good Morning, Stoic"
                 }
             }

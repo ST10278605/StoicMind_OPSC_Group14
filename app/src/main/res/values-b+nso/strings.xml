@@ -1,71 +1,71 @@
 <resources>
     <string name="app_name">StoicMind</string>
-    <string name="welcome_message">Rea go amogela ho StoicMind</string>
-    <string name="select_language">Kgetha lepolelo</string>
+    <string name="welcome_message">Rea u amohela ho StoicMind</string>
+    <string name="select_language">Khetha puo</string>
 
     <!-- Navigation & Bottom Nav -->
     <string name="nav_home">Gae</string>
-    <string name="nav_explore">Hlahloba</string>
-    <string name="nav_journal">Puku ya tshedimosetso</string>
+    <string name="nav_explore">Lekola</string>
+    <string name="nav_journal">Puku</string>
     <string name="nav_community">Sechaba</string>
-    <string name="nav_profile">Profayile</string>
+    <string name="nav_profile">Profila</string>
 
     <!-- Settings & Profile -->
-    <string name="settings">Dihlopha</string>
-    <string name="profile_and_settings">Profayile le Dithulaganyo</string>
+    <string name="settings">Dithulaganyo</string>
+    <string name="profile_and_settings">Profila le Dithulaganyo</string>
     <string name="personal_information">Tshedimosetso ya Motho</string>
-    <string name="notifications">Ditsebišo</string>
-    <string name="appearance">Pono</string>
-    <string name="change_language">Fetoša Lepolelo</string>
-    <string name="privacy_policy">Pholisi ya Sephiri</string>
-    <string name="logout">Tšwa</string>
-    <string name="stoic_practitioner">Modiri wa Stoic</string>
+    <string name="notifications">Ditsebiso</string>
+    <string name="appearance">Ponagalo</string>
+    <string name="change_language">Fetola Puo</string>
+    <string name="privacy_policy">Pholisi ya Khupamarama</string>
+    <string name="logout">Tswa</string>
+    <string name="stoic_practitioner">Mmoledi wa Stoic</string>
 
     <!-- Dashboard -->
-    <string name="dashboard">Lefelo la Phetogo</string>
-    <string name="welcome_back">O Amohetšwe Gape</string>
-    <string name="greeting_user">Thobela, %1$s</string>
-    <string name="greeting_default">Thobela, Stoic</string>
-    <string name="reflect_now">Nyakisiša Bjale</string>
-    <string name="daily_reflection">Monyalefatše wa Tšatši</string>
+    <string name="dashboard">Dashboto</string>
+    <string name="welcome_back">O Amohetswe Gape</string>
+    <string name="greeting_user">Dumela, %1$s</string>
+    <string name="greeting_default">Dumela, Stoic</string>
+    <string name="reflect_now">Nyakisisa Bjale</string>
+    <string name="daily_reflection">Monyalefatshe wa Tsatsi</string>
     <string name="journal">Puku</string>
     <string name="mood">Maikutlo</string>
     <string name="mood_check_in">Tekolo ya Maikutlo</string>
     <string name="habits">Mekgwa</string>
     <string name="explore">Lekola</string>
-    <string name="achievements">Diphihlelelo</string>
-    <string name="reminders">Dikgopotšo</string>
+    <string name="achievements">Diphitlelelo</string>
+    <string name="reminders">Dikgopotso</string>
 
     <!-- Personal Information Screen -->
-    <string name="identity">Boitšhupo</string>
-    <string name="full_name">Leina le le Tletšeng</string>
+    <string name="identity">Boitshupo</string>
+    <string name="full_name">Leina le le Tletseng</string>
     <string name="email_address">Aterese ya Imeile</string>
     <string name="your_stoic_journey">Leeto la Gago la Stoic</string>
     <string name="rank">Mogopolo</string>
     <string name="joined">O Tsenye</string>
     <string name="primary_virtue_focus">Boingotlo jo bogolo</string>
-    <string name="select_virtue_hint">Tlhopha tšhiamelo e o e dirišang thata gompieno.</string>
-    <string name="save_all_changes">Boloka Diphetogo Tšotlhe</string>
+    <string name="select_virtue_hint">Tlhopha tshiamelo e o e dirisang thata gompieno.</string>
+    <string name="save_all_changes">Boloka Diphetogo Tsotlhe</string>
     <string name="account_actions">Ditiro tsa Akhaonto</string>
-    <string name="request_password_reset">Kopa Ntšhafalso ya Khupamarama</string>
+    <string name="request_password_reset">Kopa Ntshafalso ya Khupamarama</string>
     <string name="delete_journey">Phimola Leeto (Kwala Akhaonto)</string>
 
     <!-- Appearance Dialog -->
-    <string name="choose_theme_color">Tšhophša Mmala wa Mmutlwa</string>
-    <string name="theme_classic">Stoic ya Bogologolo (Leje/Gauta)</string>
-    <string name="theme_serene">Bohlale jo bo Didimetšeng (Teal/Khutšo)</string>
-    <string name="theme_courage">Bopelokgale ba Stoic (Sekarlate/Bofubedu)</string>
-    <string name="theme_nature">Amor Fati (Ntlha ya Tlhago/Grene)</string>
+    <string name="choose_theme_color">Tlhopha Mmala wa Mmutlwa</string>
+    <string name="theme_classic">Stoic ya Bogologolo</string>
+    <string name="theme_serene">Botlhale jo bo Didimetseng</string>
+    <string name="theme_courage">Bopelokgale ba Stoic</string>
+    <string name="theme_nature">Amor Fati (Ntlha ya Tlhago)</string>
     <string name="cancel">Khansela</string>
-    <string name="apply">Diriša</string>
+    <string name="apply">Diragatsa</string>
 
     <!-- Authentication -->
     <string name="email">Imeile</string>
     <string name="password">Khupamarama</string>
     <string name="login">Tsena</string>
     <string name="register">Kwala Akhaonto</string>
-    <string name="forgot_password">O Lebetše Khupamarama?</string>
-    <string name="continue_with_google">Tšwelela ka Google</string>
+    <string name="forgot_password">O Lebetse Khupamarama?</string>
+    <string name="continue_with_google">Tswelela ka Google</string>
     <string name="dont_have_account">Ga o na akhaonto? Kwala</string>
     <string name="already_have_account">O na le akhaonto? Tsena</string>
 </resources>

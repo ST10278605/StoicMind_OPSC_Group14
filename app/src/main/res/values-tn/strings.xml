@@ -1,25 +1,25 @@
 <resources>
     <string name="app_name">StoicMind</string>
-    <string name="welcome_message">Re a go amogela mo StoicMind</string>
-    <string name="select_language">Tlhopha puo</string>
+    <string name="welcome_message">Keamogetswe StoicMind</string>
+    <string name="select_language">Tlhopha Puo e e Rileng</string>
 
     <!-- Navigation & Bottom Nav -->
     <string name="nav_home">Gae</string>
-    <string name="nav_explore">Batlisisa</string>
-    <string name="nav_journal">Puku ya dinotshi</string>
-    <string name="nav_community">Setšhaba</string>
-    <string name="nav_profile">Profayile</string>
+    <string name="nav_explore">Tsaya Karolo</string>
+    <string name="nav_journal">Koranta</string>
+    <string name="nav_community">Mochini</string>
+    <string name="nav_profile">Profila</string>
 
     <!-- Settings & Profile -->
     <string name="settings">Dithulaganyo</string>
-    <string name="profile_and_settings">Profayile le Dithulaganyo</string>
-    <string name="personal_information">Tshedimosetso ya Motho</string>
+    <string name="profile_and_settings">Profila le Dithulaganyo</string>
+    <string name="personal_information">Tshedimosetso ya Moto</string>
     <string name="notifications">Ditsebiso</string>
     <string name="appearance">Ponagalo</string>
     <string name="change_language">Fetola Puo</string>
-    <string name="privacy_policy">Pholisi ya Sephiri</string>
+    <string name="privacy_policy">Pholisi ya Khupamarama</string>
     <string name="logout">Tswa</string>
-    <string name="stoic_practitioner">Mmodi wa Stoic</string>
+    <string name="stoic_practitioner">Mmoledi wa Stoic</string>
 
     <!-- Dashboard -->
     <string name="dashboard">Dashboto</string>
@@ -28,11 +28,11 @@
     <string name="greeting_default">Dumela, Stoic</string>
     <string name="reflect_now">Nyakisisa Jaanong</string>
     <string name="daily_reflection">Monyalefatshe wa Tsatsi</string>
-    <string name="journal">Puku</string>
+    <string name="journal">Koranta</string>
     <string name="mood">Maikutlo</string>
     <string name="mood_check_in">Tekolo ya Maikutlo</string>
     <string name="habits">Mekgwa</string>
-    <string name="explore">Batlisisa</string>
+    <string name="explore">Tsaya Karolo</string>
     <string name="achievements">Diphitlelelo</string>
     <string name="reminders">Dikgopotso</string>
 
@@ -52,10 +52,10 @@
 
     <!-- Appearance Dialog -->
     <string name="choose_theme_color">Tlhopha Mmala wa Mmutlwa</string>
-    <string name="theme_classic">Stoic ya Bogologolo (Leje/Gauta)</string>
-    <string name="theme_serene">Botlhale jo bo Didimetseng (Teal/Khutso)</string>
-    <string name="theme_courage">Bopelokgale ba Stoic (Sekarlate/Bofubedu)</string>
-    <string name="theme_nature">Amor Fati (Ntlha ya Tlhago/Grene)</string>
+    <string name="theme_classic">Stoic ya Bogologolo</string>
+    <string name="theme_serene">Botlhale jo bo Didimetseng</string>
+    <string name="theme_courage">Bopelokgale ba Stoic</string>
+    <string name="theme_nature">Amor Fati (Ntlha ya Tlhago)</string>
     <string name="cancel">Khansela</string>
     <string name="apply">Diragatsa</string>
 

@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">StoicMind</string>
-    <string name="welcome_message">Siyakwamukela ku-StoicMind</string>
+    <string name="app_name">Ingqondo Engazweli</string>
+    <string name="welcome_message">Uyemukelwa ku-StoicMind</string>
     <string name="select_language">Khetha ulimi</string>
 
     <!-- Navigation & Bottom Nav -->
@@ -44,18 +44,18 @@
     <string name="rank">Izinga</string>
     <string name="joined">Ubhalise</string>
     <string name="primary_virtue_focus">Ukugxila Ebuhleni</string>
-    <string name="select_virtue_hint">Khetha ubuhle obusebenzisa kakhulu okwamanje.</string>
+    <string name="select_virtue_hint">Khetha ubuhle ewusebenzisa kakhulu okwamanje.</string>
     <string name="save_all_changes">Gcina Zonke Izinguquko</string>
-    <string name="account_actions">Izinyathelo Ze-Akhawunti</string>
-    <string name="request_password_reset">Isicelo Sokushintsha Igama Lokungena</string>
+    <string name="account_actions">Izinyathelo Ye-Akhawunti</string>
+    <string name="request_password_reset">Thumela Isicelo Somaka Ngena</string>
     <string name="delete_journey">Sula Uhambo (Vala I-Akhawunti)</string>
 
     <!-- Appearance Dialog -->
     <string name="choose_theme_color">Khetha Umbala Wethemba</string>
-    <string name="theme_classic">Stoic Yasendulo (Slate/Gold)</string>
-    <string name="theme_serene">Ukuhlakanipha Okuthule (Teal/Thula)</string>
-    <string name="theme_courage">Isibindi Sase-Stoic (Crimson/Burgundy)</string>
-    <string name="theme_nature">Amor Fati (Ihlathi Eliluhlaza/Sage)</string>
+    <string name="theme_classic">Stoic Yasendulo</string>
+    <string name="theme_serene">Ukuhlakanipha Okuthule</string>
+    <string name="theme_courage">Isibindi Sase-Stoic</string>
+    <string name="theme_nature">Amor Fati (Imvelo)</string>
     <string name="cancel">Khansela</string>
     <string name="apply">Sebenzisa</string>
 

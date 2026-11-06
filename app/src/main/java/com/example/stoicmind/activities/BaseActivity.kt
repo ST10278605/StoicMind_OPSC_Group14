@@ -3,6 +3,9 @@ package com.example.stoicmind.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.stoicmind.R
+import android.content.Context
+import com.example.stoicmind.LocaleHelper
+
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -23,4 +26,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
     }
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
 }
+
+
+

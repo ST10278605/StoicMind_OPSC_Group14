@@ -3,6 +3,7 @@ package com.example.stoicmind.di
 import android.content.Context
 import androidx.room.Room
 import com.example.stoicmind.database.AppDatabase
+import com.example.stoicmind.database.dao.CommunityDao
 import com.example.stoicmind.database.dao.JournalDao
 import com.example.stoicmind.database.dao.MoodDao
 import dagger.Module
@@ -36,5 +37,11 @@ object AppModule {
     @Singleton
     fun provideMoodDao(appDatabase: AppDatabase): MoodDao {
         return appDatabase.moodDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCommunityDao(appDatabase: AppDatabase): CommunityDao {
+        return appDatabase.communityDao()
     }
 }
